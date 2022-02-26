@@ -1,5 +1,9 @@
+import Tasks.Progress;
+import Tasks.Task;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Пришло время практики!");
+        Task task1 = new Task("Подготовиться к занятию", "Прочитать необходимые материалы, сделать дз", 1, Progress.NEW);
+
     }
 }
