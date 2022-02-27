@@ -18,9 +18,11 @@ public class Main {
         // Две подзадачи + эпик
         Integer epicTaskNum = manager.numberOfTasks;
         manager.numberOfTasks++;
-        Subtask subtask1 = new Subtask("sub1", "subdes", manager.numberOfTasks, Progress.NEW, epicTaskNum);
+        Subtask subtask1 = new Subtask("sub1", "subdes", manager.numberOfTasks,
+                Progress.NEW, epicTaskNum);
         manager.addSubtask(subtask1);
-        Subtask subtask2 = new Subtask("sub2", "subsub", manager.numberOfTasks, Progress.NEW, epicTaskNum);
+        Subtask subtask2 = new Subtask("sub2", "subsub", manager.numberOfTasks,
+                Progress.NEW, epicTaskNum);
         manager.addSubtask(subtask2);
 
         HashMap<Integer, Progress> subtasksForEpic = new HashMap<>();
@@ -36,7 +38,8 @@ public class Main {
         HashMap<Integer, Progress> subtasksForEpic2 = new HashMap<>();
         epicTaskNum = manager.numberOfTasks;
         manager.numberOfTasks++;
-        subtask1 = new Subtask("subsec", "desSubSec", manager.numberOfTasks, Progress.NEW, epicTaskNum);
+        subtask1 = new Subtask("subsec", "desSubSec", manager.numberOfTasks,
+                Progress.NEW, epicTaskNum);
         subtasksForEpic2.put(subtask1.getId(), subtask1.getProgressStatus());
         manager.addSubtask(subtask1);
         epic = new Epic("epic2", "epicdes2", epicTaskNum, Progress.NEW, subtasksForEpic2);

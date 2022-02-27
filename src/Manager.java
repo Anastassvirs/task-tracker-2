@@ -82,6 +82,7 @@ public class Manager {
 
     public HashMap<Integer, Subtask> getSubtasks(Epic epic) {
         HashMap<Integer, Subtask> subtasks = new HashMap<>();
+
         for (Integer ID: epic.getsubtasksStatuses().keySet()) {
             subtasks.put(ID, findSubtaskByID(ID));
         }
@@ -90,13 +91,15 @@ public class Manager {
 
     public void updateTaskStatus(Task task, Progress progress) {
         Task newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), progress);
+
         tasks.remove(task.getId());
         tasks.put(task.getId(), newTask);
     }
 
     public void updateSubtaskStatus(Subtask subtask, Progress progress) {
         subtasks.remove(subtask.getId());
-        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), progress, subtask.getNumberOfEpicTask());
+        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), progress,
+                subtask.getNumberOfEpicTask());
         subtasks.put(subtask.getId(), newSubtask);
         epics.get(subtask.getNumberOfEpicTask()).setSubtaskStatus(newSubtask.getId(), newSubtask.getProgressStatus());
         updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
@@ -104,13 +107,15 @@ public class Manager {
 
     public void updateEpicStatus(Epic epic) {
         Progress progress = Progress.IN_PROGRESS;
+
         if (epic.isAllSubtasksDone()) {
             progress = Progress.DONE;
         } else if (epic.getsubtasksStatuses().isEmpty() || epic.isAllSubtasksNew()) {
             return;
         }
         epics.remove(epic.getId());
-        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getId(), progress, epic.getsubtasksStatuses());
+        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getId(), progress,
+                epic.getsubtasksStatuses());
         epics.put(epic.getId(), newEpic);
     }
 }

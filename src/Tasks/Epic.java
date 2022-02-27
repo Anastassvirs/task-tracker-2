@@ -5,13 +5,15 @@ import java.util.HashMap;
 public class Epic extends Task {
     HashMap<Integer, Progress> subtasksStatuses;
 
-    public Epic(String taskName, String description, Integer id, Progress progressStatus, HashMap<Integer, Progress> subtasksStatuses) {
+    public Epic(String taskName, String description, Integer id, Progress progressStatus,
+                HashMap<Integer, Progress> subtasksStatuses) {
         super(taskName, description, id, progressStatus);
         this.subtasksStatuses = subtasksStatuses;
     }
 
     public boolean isAllSubtasksDone() {
         boolean isDone = true;
+
         for (Progress subtask: subtasksStatuses.values()) {
             if (subtask != Progress.DONE) {
                 isDone = false;
@@ -23,6 +25,7 @@ public class Epic extends Task {
 
     public boolean isAllSubtasksNew() {
         boolean isNew = true;
+
         for (Progress subtask: subtasksStatuses.values()) {
             if (subtask != Progress.NEW) {
                 isNew = false;
