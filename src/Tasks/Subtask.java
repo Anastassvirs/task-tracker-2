@@ -1,7 +1,8 @@
 package Tasks;
 
+// Класс, описывающий подзадачи
 public class Subtask extends Task {
-    Integer numberOfEpicTask;
+    Integer numberOfEpicTask; // Уникальный номер соответствующего подзадаче эпика
 
     public Subtask(String taskName, String description, Integer id, Progress progressStatus, Integer numberOfEpicTask) {
         super(taskName, description, id, progressStatus);

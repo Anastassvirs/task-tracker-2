@@ -1,10 +1,11 @@
 package Tasks;
 
+// Класс, описывающий все задачи
 public class Task {
-    protected String taskName;
-    protected String description;
-    protected Integer id;
-    protected Progress progressStatus;
+    protected String taskName; // Имя задачи
+    protected String description; // Описание задачи
+    protected Integer id; // Уникальный номер задачи
+    protected Progress progressStatus; // Статус задачи (Новая / В процессе / Выполнена)
 
     public Task(String taskName, String description, Integer id, Progress progressStatus) {
         this.taskName = taskName;

@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class Manager {
     int numberOfTasks;
-    private HashMap<Integer, Task> tasks;
-    private HashMap<Integer, Subtask> subtasks;
-    private HashMap<Integer, Epic> epics;
+    private HashMap<Integer, Task> tasks; // Список обычных задач
+    private HashMap<Integer, Subtask> subtasks; // Список всех подзадач
+    private HashMap<Integer, Epic> epics; // Список эпиков
 
     public Manager() {
         tasks = new HashMap<>();
@@ -96,15 +96,19 @@ public class Manager {
         tasks.put(task.getId(), newTask);
     }
 
+    // Обновление статуса подзадачи с возможностью изменения статуса эпика
     public void updateSubtaskStatus(Subtask subtask, Progress progress) {
         subtasks.remove(subtask.getId());
         Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), progress,
                 subtask.getNumberOfEpicTask());
         subtasks.put(subtask.getId(), newSubtask);
+        // Обновление статуса подзадачи у соответствующего эпика
         epics.get(subtask.getNumberOfEpicTask()).setSubtaskStatus(newSubtask.getId(), newSubtask.getProgressStatus());
+        // При необходимсоти изменяем статус самого эпика
         updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
     }
 
+    // Проводится проверка на необходимость изменения статуса эпика с возможностью изменения
     public void updateEpicStatus(Epic epic) {
         Progress progress = Progress.IN_PROGRESS;
 

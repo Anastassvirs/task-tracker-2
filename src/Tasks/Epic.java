@@ -2,8 +2,9 @@ package Tasks;
 
 import java.util.HashMap;
 
+// Класс, описывающий эпик
 public class Epic extends Task {
-    HashMap<Integer, Progress> subtasksStatuses;
+    HashMap<Integer, Progress> subtasksStatuses; // Список принадлежащих подзадач с указанием статуса
 
     public Epic(String taskName, String description, Integer id, Progress progressStatus,
                 HashMap<Integer, Progress> subtasksStatuses) {
@@ -11,6 +12,7 @@ public class Epic extends Task {
         this.subtasksStatuses = subtasksStatuses;
     }
 
+    // Проверка, закрыты ли все подзадачи
     public boolean isAllSubtasksDone() {
         boolean isDone = true;
 
@@ -23,6 +25,7 @@ public class Epic extends Task {
         return isDone;
     }
 
+    // Проверка, являются ли все подзадачи новыми
     public boolean isAllSubtasksNew() {
         boolean isNew = true;
 
@@ -39,6 +42,7 @@ public class Epic extends Task {
         return subtasksStatuses;
     }
 
+    // Устанавливает новое значение статуса подзадачи
     public void setSubtaskStatus(Integer ID, Progress status) {
         subtasksStatuses.remove(ID);
         subtasksStatuses.put(ID, status);
