@@ -36,4 +36,14 @@ public class Task {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", progressStatus=" + progressStatus +
+                '}';
+    }
 }

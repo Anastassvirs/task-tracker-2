@@ -7,11 +7,14 @@ import java.util.HashMap;
 
 public class Manager {
     int numberOfTasks;
-    HashMap<Integer, Task> tasks;
-    HashMap<Integer, Subtask> subtasks;
-    HashMap<Integer, Epic> epics;
+    private HashMap<Integer, Task> tasks;
+    private HashMap<Integer, Subtask> subtasks;
+    private HashMap<Integer, Epic> epics;
 
     public Manager() {
+        tasks = new HashMap<>();
+        subtasks = new HashMap<>();
+        epics = new HashMap<>();
         numberOfTasks = 0;
     }
 
@@ -52,74 +55,62 @@ public class Manager {
     }
 
     public void addTask(Task task) {
-        numberOfTasks += 1;
         tasks.put(numberOfTasks, task);
+        numberOfTasks++;
     }
 
     public void addSubtask(Subtask subtask) {
-        numberOfTasks += 1;
         subtasks.put(numberOfTasks, subtask);
+        numberOfTasks++;
     }
 
     public void addEpic(Epic epic) {
-        numberOfTasks += 1;
-        epics.put(numberOfTasks, epic);
-    }
-
-    public void updateTask(Task task) {
-        tasks.remove(task.getId());
-        tasks.put(task.getId(), task);
-    }
-
-    public void updateSubtask(Subtask subtask) {
-        subtasks.remove(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
-    }
-
-    public void updateEpic(Epic epic) {
-        epics.remove(epic.getId());
         epics.put(epic.getId(), epic);
     }
 
-    public void deleteTask(int ID) {
-        tasks.remove(ID);
-    }
-
-    public void deleteSubtask(int ID) {
-        subtasks.remove(ID);
-    }
-
-    public void deleteEpic(int ID) {
-        epics.remove(ID);
-    }
-
-    public HashMap<Integer, Subtask> getSubtasks(int ID) {
-        Epic epic = epics.get(ID);
-        return epic.getSubtasks();
-    }
-
-    public void changeTaskStatus(Task task, Progress progress) {
+    public void deleteTask(Task task) {
         tasks.remove(task.getId());
+    }
+
+    public void deleteSubtask(Subtask subtask) {
+        subtasks.remove(subtask.getId());
+    }
+
+    public void deleteEpic(Epic epic) {
+        epics.remove(epic.getId());
+    }
+
+    public HashMap<Integer, Subtask> getSubtasks(Epic epic) {
+        HashMap<Integer, Subtask> subtasks = new HashMap<>();
+        for (Integer ID: epic.getsubtasksStatuses().keySet()) {
+            subtasks.put(ID, findSubtaskByID(ID));
+        }
+        return subtasks;
+    }
+
+    public void updateTaskStatus(Task task, Progress progress) {
         Task newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), progress);
+        tasks.remove(task.getId());
         tasks.put(task.getId(), newTask);
     }
 
-    public void changeSubtaskStatus(Subtask subtask, Progress progress) {
+    public void updateSubtaskStatus(Subtask subtask, Progress progress) {
         subtasks.remove(subtask.getId());
-        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), progress, subtask.getEpicTask());
+        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), progress, subtask.getNumberOfEpicTask());
         subtasks.put(subtask.getId(), newSubtask);
-        //тут мб стоит добавить проверку не завершились ли все сабтаски
+        epics.get(subtask.getNumberOfEpicTask()).setSubtaskStatus(newSubtask.getId(), newSubtask.getProgressStatus());
+        updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
     }
 
-    public void changeEpicStatus(Epic epic) {
+    public void updateEpicStatus(Epic epic) {
         Progress progress = Progress.IN_PROGRESS;
         if (epic.isAllSubtasksDone()) {
             progress = Progress.DONE;
-        } else if (epic.getSubtasks().isEmpty() || epic.isAllSubtasksNew()) {
-            progress = Progress.NEW;
+        } else if (epic.getsubtasksStatuses().isEmpty() || epic.isAllSubtasksNew()) {
+            return;
         }
         epics.remove(epic.getId());
-        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getId(), progress, epic.getSubtasks());
+        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getId(), progress, epic.getsubtasksStatuses());
         epics.put(epic.getId(), newEpic);
     }
 }

@@ -3,17 +3,17 @@ package Tasks;
 import java.util.HashMap;
 
 public class Epic extends Task {
-    HashMap<Integer, Subtask> subtasks;
+    HashMap<Integer, Progress> subtasksStatuses;
 
-    public Epic(String taskName, String description, Integer id, Progress progressStatus, HashMap<Integer, Subtask> subtasks) {
+    public Epic(String taskName, String description, Integer id, Progress progressStatus, HashMap<Integer, Progress> subtasksStatuses) {
         super(taskName, description, id, progressStatus);
-        this.subtasks = subtasks;
+        this.subtasksStatuses = subtasksStatuses;
     }
 
     public boolean isAllSubtasksDone() {
         boolean isDone = true;
-        for (Subtask subtask: subtasks.values()) {
-            if (subtask.getProgressStatus() != Progress.DONE) {
+        for (Progress subtask: subtasksStatuses.values()) {
+            if (subtask != Progress.DONE) {
                 isDone = false;
                 break;
             }
@@ -23,8 +23,8 @@ public class Epic extends Task {
 
     public boolean isAllSubtasksNew() {
         boolean isNew = true;
-        for (Subtask subtask: subtasks.values()) {
-            if (subtask.getProgressStatus() != Progress.NEW) {
+        for (Progress subtask: subtasksStatuses.values()) {
+            if (subtask != Progress.NEW) {
                 isNew = false;
                 break;
             }
@@ -32,7 +32,23 @@ public class Epic extends Task {
         return isNew;
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public HashMap<Integer, Progress> getsubtasksStatuses() {
+        return subtasksStatuses;
+    }
+
+    public void setSubtaskStatus(Integer ID, Progress status) {
+        subtasksStatuses.remove(ID);
+        subtasksStatuses.put(ID, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Epic{" +
+                "subtasksStatuses=" + subtasksStatuses +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", progressStatus=" + progressStatus +
+                '}';
     }
 }
