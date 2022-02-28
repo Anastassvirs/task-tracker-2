@@ -1,7 +1,7 @@
-package Tasks;
+package tasks;
 
 // Класс возможных значений статуса задачи
-public enum Progress {
+public enum Status {
     NEW,
     IN_PROGRESS,
     DONE

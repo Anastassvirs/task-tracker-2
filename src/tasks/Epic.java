@@ -1,23 +1,22 @@
-package Tasks;
+package tasks;
 
 import java.util.HashMap;
 
 // Класс, описывающий эпик
 public class Epic extends Task {
-    HashMap<Integer, Progress> subtasksStatuses; // Список принадлежащих подзадач с указанием статуса
+    private HashMap<Integer, Subtask> subtasks; // Список принадлежащих подзадач с указанием статуса
 
-    public Epic(String taskName, String description, Integer id, Progress progressStatus,
-                HashMap<Integer, Progress> subtasksStatuses) {
-        super(taskName, description, id, progressStatus);
-        this.subtasksStatuses = subtasksStatuses;
+    public Epic(String taskName, String description, Integer id, Status status) {
+        super(taskName, description, id, status);
+        this.subtasks = new HashMap<>();
     }
 
     // Проверка, закрыты ли все подзадачи
     public boolean isAllSubtasksDone() {
         boolean isDone = true;
 
-        for (Progress subtask: subtasksStatuses.values()) {
-            if (subtask != Progress.DONE) {
+        for (Subtask subtask: subtasks.values()) {
+            if (subtask.getProgressStatus() != Status.DONE) {
                 isDone = false;
                 break;
             }
@@ -29,8 +28,8 @@ public class Epic extends Task {
     public boolean isAllSubtasksNew() {
         boolean isNew = true;
 
-        for (Progress subtask: subtasksStatuses.values()) {
-            if (subtask != Progress.NEW) {
+        for (Subtask subtask: subtasks.values()) {
+            if (subtask.getProgressStatus() != Status.NEW) {
                 isNew = false;
                 break;
             }
@@ -38,23 +37,25 @@ public class Epic extends Task {
         return isNew;
     }
 
-    public HashMap<Integer, Progress> getsubtasksStatuses() {
-        return subtasksStatuses;
+    public HashMap<Integer, Subtask> getsubtasks() {
+        return subtasks;
+    }
+
+    public void addSubtask(Subtask subtask){
+        subtasks.put(subtask.getId(), subtask);
     }
 
     // Устанавливает новое значение статуса подзадачи
-    public void setSubtaskStatus(Integer ID, Progress status) {
-        subtasksStatuses.remove(ID);
-        subtasksStatuses.put(ID, status);
+    public void setSubtask(Integer ID, Subtask subtask) {
+        subtasks.put(ID, subtask);
     }
 
     @Override
     public String toString() {
         return "Epic{" +
-                "subtasksStatuses=" + subtasksStatuses +
+                "subtasks=" + subtasks +
                 ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
-                ", id=" + id +
                 ", progressStatus=" + progressStatus +
                 '}';
     }
