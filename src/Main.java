@@ -34,16 +34,30 @@ public class Main {
 
         // Изменим одну из подзадач на Done и проверим, изменился ли эпик + поменяем статусы обычных задач
         System.out.println('\n' + "Изменяем статус первой подзадачи на Done + изменены статусы обычных задач:");
-        manager.updateSubtaskStatus(3, Status.DONE);
-        manager.updateTaskStatus(0, Status.DONE);
-        manager.updateTaskStatus(1, Status.IN_PROGRESS);
+
+        Task task = manager.getAllTasks().get(0);
+        Task newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), Status.DONE);
+        manager.updateTask(newTask);
+
+        task = manager.getAllTasks().get(1);
+        newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), Status.IN_PROGRESS);
+        manager.updateTask(newTask);
+
+        Subtask subtask = manager.getAllSubtasks().get(0);
+        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), Status.DONE,
+                subtask.getNumberOfEpicTask());
+        manager.updateSubtask(newSubtask);
+
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
         System.out.println("Список эпиков: " + manager.getAllEpics());
         System.out.println("Список подзадач: " + manager.getAllSubtasks());
 
         // Поменяем вторую подзадачу
         System.out.println('\n' + "Теперь вторую:");
-        manager.updateSubtaskStatus(4, Status.DONE);
+        subtask = manager.getAllSubtasks().get(1);
+        newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), Status.DONE,
+                subtask.getNumberOfEpicTask());
+        manager.updateSubtask(newSubtask);
         System.out.println('\n' + "Список эпиков: " + manager.getAllEpics());
         System.out.println("Список подзадач: " + manager.getAllSubtasks());
 

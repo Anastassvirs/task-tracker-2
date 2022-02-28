@@ -109,25 +109,6 @@ public class Manager {
         return subtasks;
     }
 
-    public void updateTaskStatus(Integer taskNubmer, Status status) {
-        Task task = tasks.get(taskNubmer);
-        Task newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), status);
-
-        tasks.put(task.getId(), newTask);
-    }
-
-    // Обновление статуса подзадачи с возможностью изменения статуса эпика
-    public void updateSubtaskStatus(Integer numberOfTask, Status status) {
-        Subtask subtask = subtasks.get(numberOfTask);
-        Subtask newSubtask = new Subtask(subtask.getTaskName(), subtask.getDescription(), subtask.getId(), status,
-                subtask.getNumberOfEpicTask());
-        subtasks.put(subtask.getId(), newSubtask);
-        // Обновление статуса подзадачи у соответствующего эпика
-        epics.get(subtask.getNumberOfEpicTask()).setSubtask(newSubtask.getId(), newSubtask);
-        // При необходимсоти изменяем статус самого эпика
-        updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
-    }
-
     // Проводится проверка на необходимость изменения статуса эпика с возможностью изменения
     public void updateEpicStatus(Epic epic) {
         Status status = Status.IN_PROGRESS;
@@ -146,5 +127,19 @@ public class Manager {
 
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
+    }
+
+    public void updateTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    public void updateSubtask(Subtask subtask) {
+        if (subtask.getProgressStatus() != subtasks.get(subtask.getId()).getProgressStatus()) {
+            // Обновление статуса подзадачи у соответствующего эпика
+            epics.get(subtask.getNumberOfEpicTask()).setSubtask(subtask.getId(), subtask);
+            // При необходимсоти изменяем статус самого эпика
+            updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
+        }
+        subtasks.put(subtask.getId(), subtask);
     }
 }
