@@ -14,8 +14,7 @@ public class Main {
         manager.addTask("c", "d");
 
         // Две подзадачи + эпик
-        Integer epicTaskNum = manager.numberOfTasks;
-        manager.addEpic("ep1", "epicdes");
+        Integer epicTaskNum = manager.addEpic("ep1", "epicdes");
         manager.addSubtask("sub1", "subdes", epicTaskNum);
         manager.addSubtask("sub2", "subsub", epicTaskNum);
 
@@ -23,8 +22,7 @@ public class Main {
         System.out.println("Все подзадачи первого эпика: " + manager.getSubtasksFromEpic(2));
 
         // Эпик с одной подзадачей
-        epicTaskNum = manager.numberOfTasks;
-        manager.addEpic("epic2", "epicdes2");
+        epicTaskNum = manager.addEpic("epic2", "epicdes2");
         manager.addSubtask("subsec", "desSubSec", epicTaskNum);
 
         // Выводим списки задач по категориям

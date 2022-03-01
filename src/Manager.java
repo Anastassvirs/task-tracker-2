@@ -49,11 +49,11 @@ public class Manager {
 
     public void deleteAllSubtasks() {
         subtasks.clear();
-        deleteAllEpics();
     }
 
     public void deleteAllEpics() {
         epics.clear();
+        deleteAllSubtasks();
     }
 
     public Task findTaskByID(int ID) {
@@ -81,10 +81,11 @@ public class Manager {
         numberOfTasks++;
     }
 
-    public void addEpic(String nameOfTask, String description) {
+    public Integer addEpic(String nameOfTask, String description) {
         Epic epic = new Epic(nameOfTask, description, numberOfTasks, Status.NEW);
         epics.put(epic.getId(), epic);
         numberOfTasks++;
+        return epic.getId();
     }
 
     public void deleteTaskByNum(Integer ID) {
