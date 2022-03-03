@@ -68,17 +68,19 @@ public class Manager {
         return epics.get(ID);
     }
 
-    public void addTask(String nameOfTask, String description) {
+    public Integer addTask(String nameOfTask, String description) {
         Task task = new Task(nameOfTask, description, numberOfTasks, Status.NEW);
         tasks.put(numberOfTasks, task);
         numberOfTasks++;
+        return task.getId();
     }
 
-    public void addSubtask(String nameOfTask, String description, Integer epicTaskNum) {
+    public Integer addSubtask(String nameOfTask, String description, Integer epicTaskNum) {
         Subtask subtask = new Subtask(nameOfTask, description, numberOfTasks, Status.NEW, epicTaskNum);
         subtasks.put(numberOfTasks, subtask);
         epics.get(epicTaskNum).addSubtask(subtask);
         numberOfTasks++;
+        return subtask.getId();
     }
 
     public Integer addEpic(String nameOfTask, String description) {
