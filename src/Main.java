@@ -5,9 +5,36 @@ import tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
-        Manager manager = new Manager();
+        Managers managers = new Managers();
+        TaskManager manager = managers.getDefault();
+        //InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Integer taskNum1 = manager.addTask("a", "b");
+        Integer taskNum2 = manager.addTask("c", "d");
+        Integer epicTaskNum1 = manager.addEpic("ep1", "epicdes");
+        Integer subtask1 = manager.addSubtask("sub1", "subdes", epicTaskNum1);
+        Integer subtask2 = manager.addSubtask("sub2", "subsub", epicTaskNum1);
+        Integer taskNum3 = manager.addTask("e", "f");
+        Integer taskNum4 = manager.addTask("g", "h");
 
-        // Две обычные задачи
+        System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
+        System.out.println("Список эпиков: " + manager.getAllEpics());
+        System.out.println("Список подзадач: " + manager.getAllSubtasks());
+
+        Task task = manager.findTaskByID(taskNum3);
+        task = manager.findTaskByID(taskNum1);
+        task = manager.findSubtaskByID(subtask1);
+        task = manager.findEpicByID(epicTaskNum1);
+        task = manager.findSubtaskByID(subtask1);
+        task = manager.findSubtaskByID(subtask2);
+        task = manager.findTaskByID(taskNum1);
+        task = manager.findTaskByID(taskNum1);
+        task = manager.findTaskByID(taskNum1);
+        task = manager.findTaskByID(taskNum2);
+        task = manager.findTaskByID(taskNum4);
+        task = manager.findTaskByID(taskNum1);
+        //System.out.println(manager.history());
+
+        /*// Две обычные задачи
         Integer taskNum1 = manager.addTask("a", "b");
         Integer taskNum2 = manager.addTask("c", "d");
 
@@ -62,6 +89,6 @@ public class Main {
         manager.deleteEpicByNum(epicTaskNum1);
         manager.deleteTaskByNum(taskNum2);
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
-        System.out.println("Список эпиков: " + manager.getAllEpics());
+        System.out.println("Список эпиков: " + manager.getAllEpics());*/
     }
 }

@@ -16,13 +16,13 @@ public class Main {
 ```
 И включает в себя 6 классов:
 * Main.java
-* Manager.java
+* InMemoryTaskManager.java
 * Task.java
 * Subtask.java
 * Epic.java
 * Progress.java
 
-Программа представляет собой бэкенд трекера задач. Управление происходит через класс Manager.
+Программа представляет собой бэкенд трекера задач. Управление происходит через класс InMemoryTaskManager.
 
 ------
 По всем интересующим вопросам обращаться на почту: foreducationYa@ya.ru
