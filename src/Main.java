@@ -30,6 +30,7 @@ public class Main {
         task = manager.findEpicByID(epicTaskNum1);
         task = manager.findSubtaskByID(subtask1);
         task = manager.findSubtaskByID(subtask2);
+        System.out.println(historyManager.getHistory());
         task = manager.findTaskByID(taskNum1);
         task = manager.findTaskByID(taskNum1);
         task = manager.findTaskByID(taskNum1);
