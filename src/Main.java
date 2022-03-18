@@ -5,10 +5,7 @@ import tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
-        Managers managers = new Managers();
-        TaskManager manager = managers.getDefault();
-        HistoryManager historyManager;
-        historyManager = Managers.getDefaultHistory();
+        TaskManager manager = Managers.getDefault();
         // Две обычные задачи
         Integer taskNum1 = manager.addTask("a", "b");
         Integer taskNum2 = manager.addTask("c", "d");
@@ -30,14 +27,14 @@ public class Main {
         task = manager.findEpicByID(epicTaskNum1);
         task = manager.findSubtaskByID(subtask1);
         task = manager.findSubtaskByID(subtask2);
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.history());
         task = manager.findTaskByID(taskNum1);
         task = manager.findTaskByID(taskNum1);
         task = manager.findTaskByID(taskNum1);
         task = manager.findTaskByID(taskNum2);
         task = manager.findTaskByID(taskNum4);
         task = manager.findTaskByID(taskNum1);
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.history());
 
         // Проверка getSubtasks
         System.out.println("Все подзадачи первого эпика: " + manager.getSubtasksFromEpic(epicTaskNum1));

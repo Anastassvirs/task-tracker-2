@@ -2,6 +2,7 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public interface TaskManager {
@@ -42,4 +43,6 @@ public interface TaskManager {
      void deleteEpicByNum(Integer ID);
 
      ArrayList<Subtask> getSubtasksFromEpic(Integer numberOfEpic);
+
+     ArrayDeque<Task> history();
 }

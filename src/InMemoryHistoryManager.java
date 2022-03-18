@@ -6,7 +6,7 @@ public class InMemoryHistoryManager implements HistoryManager{
     private ArrayDeque<Task> viewsList;
 
     public InMemoryHistoryManager() {
-        viewsList = new ArrayDeque<>();
+        viewsList = new ArrayDeque<>(10);
     }
 
     @Override

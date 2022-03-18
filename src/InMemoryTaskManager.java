@@ -10,12 +10,15 @@ public class InMemoryTaskManager implements TaskManager{
     private HashMap<Integer, Task> tasks; // Список обычных задач
     private HashMap<Integer, Subtask> subtasks; // Список всех подзадач
     private HashMap<Integer, Epic> epics; // Список эпиков
+    private HistoryManager historyManager;
+
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
         numberOfTasks = 0;
+        historyManager = Managers.getDefaultHistory();
     }
 
     @Override
@@ -63,19 +66,19 @@ public class InMemoryTaskManager implements TaskManager{
 
     @Override
     public Task findTaskByID(int ID) {
-        Managers.getDefaultHistory().add(tasks.get(ID));
+        historyManager.add(tasks.get(ID));
         return tasks.get(ID);
     }
 
     @Override
     public Subtask findSubtaskByID(int ID) {
-        Managers.getDefaultHistory().add(subtasks.get(ID));
+        historyManager.add(subtasks.get(ID));
         return subtasks.get(ID);
     }
 
     @Override
     public Epic findEpicByID(int ID) {
-        Managers.getDefaultHistory().add(epics.get(ID));
+        historyManager.add(epics.get(ID));
         return epics.get(ID);
     }
 
@@ -128,6 +131,11 @@ public class InMemoryTaskManager implements TaskManager{
             subtasks.add(subtask);
         }
         return subtasks;
+    }
+
+    @Override
+    public ArrayDeque<Task> history() {
+        return historyManager.getHistory();
     }
 
     // Проводится проверка на необходимость изменения статуса эпика с возможностью изменения
