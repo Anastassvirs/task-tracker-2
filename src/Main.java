@@ -7,12 +7,16 @@ public class Main {
     public static void main(String[] args) {
         Managers managers = new Managers();
         TaskManager manager = managers.getDefault();
-        //InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        HistoryManager historyManager;
+        historyManager = Managers.getDefaultHistory();
+        // Две обычные задачи
         Integer taskNum1 = manager.addTask("a", "b");
         Integer taskNum2 = manager.addTask("c", "d");
+        // Две подзадачи + эпик
         Integer epicTaskNum1 = manager.addEpic("ep1", "epicdes");
         Integer subtask1 = manager.addSubtask("sub1", "subdes", epicTaskNum1);
         Integer subtask2 = manager.addSubtask("sub2", "subsub", epicTaskNum1);
+        //Ещё две обычные задачи для проверки работы history
         Integer taskNum3 = manager.addTask("e", "f");
         Integer taskNum4 = manager.addTask("g", "h");
 
@@ -32,16 +36,7 @@ public class Main {
         task = manager.findTaskByID(taskNum2);
         task = manager.findTaskByID(taskNum4);
         task = manager.findTaskByID(taskNum1);
-        //System.out.println(manager.history());
-
-        /*// Две обычные задачи
-        Integer taskNum1 = manager.addTask("a", "b");
-        Integer taskNum2 = manager.addTask("c", "d");
-
-        // Две подзадачи + эпик
-        Integer epicTaskNum1 = manager.addEpic("ep1", "epicdes");
-        Integer subtask1 = manager.addSubtask("sub1", "subdes", epicTaskNum1);
-        Integer subtask2 = manager.addSubtask("sub2", "subsub", epicTaskNum1);
+        System.out.println(historyManager.getHistory());
 
         // Проверка getSubtasks
         System.out.println("Все подзадачи первого эпика: " + manager.getSubtasksFromEpic(epicTaskNum1));
@@ -58,7 +53,7 @@ public class Main {
         // Изменим одну из подзадач на Done и проверим, изменился ли эпик + поменяем статусы обычных задач
         System.out.println('\n' + "Изменяем статус первой подзадачи на Done + изменены статусы обычных задач:");
 
-        Task task = manager.findTaskByID(taskNum1);
+        task = manager.findTaskByID(taskNum1);
         Task newTask = new Task(task.getTaskName(), task.getDescription(), task.getId(), Status.DONE);
         manager.updateTask(newTask);
 
@@ -89,6 +84,6 @@ public class Main {
         manager.deleteEpicByNum(epicTaskNum1);
         manager.deleteTaskByNum(taskNum2);
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
-        System.out.println("Список эпиков: " + manager.getAllEpics());*/
+        System.out.println("Список эпиков: " + manager.getAllEpics());
     }
 }
