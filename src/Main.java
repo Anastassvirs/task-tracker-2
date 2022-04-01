@@ -5,6 +5,7 @@ import tasks.Task;
 
 public class Main {
     public static void main(String[] args) {
+
         TaskManager manager = Managers.getDefault();
         // Две обычные задачи
         Integer taskNum1 = manager.addTask("a", "b");

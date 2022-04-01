@@ -2,8 +2,8 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     ArrayList<Task> getAllTasks();
@@ -44,5 +44,5 @@ public interface TaskManager {
 
      ArrayList<Subtask> getSubtasksFromEpic(Integer numberOfEpic);
 
-     ArrayDeque<Task> history();
+     List<Task> history();
 }

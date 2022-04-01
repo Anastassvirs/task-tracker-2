@@ -1,9 +1,9 @@
 import tasks.Task;
 
-import java.util.ArrayDeque;
+import java.util.List;
 
 public interface HistoryManager {
     void add(Task task);
-
-    ArrayDeque<Task> getHistory();
+    void remove(int id);
+    List<Task> getHistory();
 }
