@@ -1,10 +1,12 @@
+package managers;
+
 import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     private ListNode head;
     private ListNode tail;
     private int size;

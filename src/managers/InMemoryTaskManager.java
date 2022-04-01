@@ -1,3 +1,5 @@
+package managers;
+
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
@@ -5,7 +7,7 @@ import tasks.Task;
 
 import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager{
+public class InMemoryTaskManager implements TaskManager {
     protected int numberOfTasks;
     private HashMap<Integer, Task> tasks; // Список обычных задач
     private HashMap<Integer, Subtask> subtasks; // Список всех подзадач
