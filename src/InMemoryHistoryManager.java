@@ -20,11 +20,11 @@ public class InMemoryHistoryManager implements HistoryManager{
     }
 
     @Override
-    public void add(Task task) { //нужно ли добавить проверку на то, есть ли уже этот node в списке?
+    public void add(Task task) {
         if (size >= 10) {
             removeNode(head);
         }
-        if (numbersOfTasks.getOrDefault(task.getId(), null) != null) {
+        if (numbersOfTasks.containsKey(task.getId())) {
             remove(task.getId());
         }
         numbersOfTasks.put(task.getId(), linkLast(task));
@@ -57,20 +57,16 @@ public class InMemoryHistoryManager implements HistoryManager{
         historyGet.clear();
         historyGet.add(head.getItem());
         ListNode next = head.getNext();
-        for (int i = 1; i < size; i++) {
-            ListNode thisOne = next;
+        ListNode thisOne;
+        while (next != null) {
+            thisOne = next;
             next = thisOne.getNext();
-            if (thisOne != null) {
-                historyGet.add(thisOne.getItem());
-            } else {
-                break;
-            }
+            historyGet.add(thisOne.getItem());
         }
         return historyGet;
     }
 
-    private Task removeNode(ListNode node) {
-        final Task element = node.getItem();
+    private void removeNode(ListNode node) {
         final ListNode next = node.getNext();
         final ListNode prev = node.getPrev();
 
@@ -90,6 +86,5 @@ public class InMemoryHistoryManager implements HistoryManager{
 
         node.setItem(null);
         size--;
-        return element;
     }
 }
