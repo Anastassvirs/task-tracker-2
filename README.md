@@ -14,7 +14,7 @@ public class Main {
     }
 }
 ```
-И включает в себя 7 классов:
+И включает в себя 8 классов:
 * Main.java
 * InMemoryTaskManager.java
 * InMemoryHistoryManager.java
@@ -22,6 +22,7 @@ public class Main {
 * Subtask.java
 * Epic.java
 * Managers.java
+* ListNode
 
 1 enum:
 * Status.java
@@ -30,7 +31,8 @@ public class Main {
 * HistoryManager
 * TaskManager
 
-Программа представляет собой бэкенд трекера задач. Управление происходит через класс InMemoryTaskManager.
+Программа представляет собой бэкенд трекера задач. Управление происходит через класс InMemoryTaskManager. Программа 
+реализует управление задачами и просмотр истории вызовов задач.
 
 ------
 По всем интересующим вопросам обращаться на почту: foreducationYa@ya.ru
