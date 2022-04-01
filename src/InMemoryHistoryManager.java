@@ -41,7 +41,7 @@ public class InMemoryHistoryManager implements HistoryManager{
         numbersOfTasks.remove(id);
     }
 
-    public ListNode linkLast(Task task) {
+    private ListNode linkLast(Task task) {
         final ListNode l = tail;
         final ListNode newNode = new ListNode(l, task, null);
         tail = newNode;
@@ -69,7 +69,7 @@ public class InMemoryHistoryManager implements HistoryManager{
         return historyGet;
     }
 
-    public Task removeNode(ListNode node) {
+    private Task removeNode(ListNode node) {
         final Task element = node.item;
         final ListNode next = node.next;
         final ListNode prev = node.prev;
