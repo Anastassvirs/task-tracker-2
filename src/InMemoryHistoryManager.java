@@ -9,11 +9,9 @@ public class InMemoryHistoryManager implements HistoryManager{
     private ListNode tail;
     private int size;
     private HashMap<Integer, ListNode> numbersOfTasks;
-    private ArrayList<Task> historyGet;
 
     public InMemoryHistoryManager() {
         numbersOfTasks = new HashMap<>();
-        historyGet = new ArrayList<>();
         head = null;
         tail = null;
         size = 0;
@@ -22,7 +20,7 @@ public class InMemoryHistoryManager implements HistoryManager{
     @Override
     public void add(Task task) {
         if (size >= 10) {
-            removeNode(head);
+            remove(head.getItem().getId());
         }
         if (numbersOfTasks.containsKey(task.getId())) {
             remove(task.getId());
@@ -54,7 +52,7 @@ public class InMemoryHistoryManager implements HistoryManager{
     }
 
     public ArrayList<Task> getTasks() {
-        historyGet.clear();
+        ArrayList<Task> historyGet = new ArrayList<>();
         historyGet.add(head.getItem());
         ListNode next = head.getNext();
         ListNode thisOne;
