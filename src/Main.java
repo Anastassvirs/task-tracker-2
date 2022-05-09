@@ -6,10 +6,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        TaskManager manager = Managers.getDefault();
-        // Две обычные задачи
-        String line = '\n' + "Список обычных задач: " + manager.getAllTasks();
-        System.out.println(line);
+        TaskManager manager = Managers.getDefault("input.csv");
+        System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
         System.out.println("Список эпиков: " + manager.getAllEpics());
         System.out.println("Список подзадач: " + manager.getAllSubtasks());
         Integer taskNum1 = manager.addTask("task1", "strong and serious");
@@ -36,15 +34,9 @@ public class Main {
         task = manager.findSubtaskByID(subtask2);
         System.out.println(manager.history());
 
-        // Проверяем, работает ли удаление
-        manager.deleteTaskByNum(taskNum1);
-        System.out.println(manager.history());
-
-        // Удалим эпик с тремя задачами
-        manager.deleteEpicByNum(epicTaskNum1);
-        System.out.println(manager.history());
-
-        task = manager.findEpicByID(epicTaskNum2);
-        System.out.println(manager.history());
+        manager = Managers.getDefault("output.csv");
+        System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
+        System.out.println("Список эпиков: " + manager.getAllEpics());
+        System.out.println("Список подзадач: " + manager.getAllSubtasks());
     }
 }

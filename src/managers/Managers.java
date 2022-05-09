@@ -14,8 +14,8 @@ import java.util.List;
 
 public abstract class Managers {
 
-    public static TaskManager getDefault() throws IOException{
-        return loadFromFile(new File("input.csv"));
+    public static TaskManager getDefault(String path) throws IOException{
+        return loadFromFile(new File(path));
     }
 
     public static HistoryManager getDefaultHistory() {
