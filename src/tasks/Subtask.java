@@ -15,12 +15,12 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
-                "numberOfEpicTask=" + numberOfEpicTask +
-                ", taskName='" + taskName + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", progressStatus=" + progressStatus +
-                '}';
+        return id +
+                "," + Types.SUBTASK +
+                "," + taskName +
+                "," + progressStatus +
+                "," + description +
+                "," + numberOfEpicTask
+                ;
     }
 }

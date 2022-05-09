@@ -26,6 +26,8 @@ public interface TaskManager {
 
      Epic findEpicByID(int ID);
 
+     Task findEveryTaskByID(int ID);
+
      Integer addTask(String nameOfTask, String description);
 
      Integer addSubtask(String nameOfTask, String description, Integer epicTaskNum);

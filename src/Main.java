@@ -2,12 +2,16 @@ import managers.Managers;
 import managers.TaskManager;
 import tasks.Task;
 
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
         TaskManager manager = Managers.getDefault();
         // Две обычные задачи
+        String line = '\n' + "Список обычных задач: " + manager.getAllTasks();
+        System.out.println(line);
+        System.out.println("Список эпиков: " + manager.getAllEpics());
+        System.out.println("Список подзадач: " + manager.getAllSubtasks());
         Integer taskNum1 = manager.addTask("task1", "strong and serious");
         Integer taskNum2 = manager.addTask("taskie daskie", "funny and nice");
         // Три подзадачи + эпик
@@ -42,7 +46,5 @@ public class Main {
 
         task = manager.findEpicByID(epicTaskNum2);
         System.out.println(manager.history());
-
-
     }
 }

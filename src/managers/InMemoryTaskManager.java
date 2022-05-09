@@ -9,10 +9,10 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected int numberOfTasks;
-    private HashMap<Integer, Task> tasks; // Список обычных задач
-    private HashMap<Integer, Subtask> subtasks; // Список всех подзадач
-    private HashMap<Integer, Epic> epics; // Список эпиков
-    private HistoryManager historyManager;
+    protected HashMap<Integer, Task> tasks; // Список обычных задач
+    protected HashMap<Integer, Subtask> subtasks; // Список всех подзадач
+    protected HashMap<Integer, Epic> epics; // Список эпиков
+    protected HistoryManager historyManager;
 
 
     public InMemoryTaskManager() {
@@ -85,6 +85,22 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public Task findEveryTaskByID(int ID) {
+        Task task = null;
+        if (tasks.get(ID) != null) {
+            historyManager.add(tasks.get(ID));
+            task = tasks.get(ID);
+        } else if (subtasks.get(ID) != null) {
+            historyManager.add(subtasks.get(ID));
+            task = subtasks.get(ID);
+        } else if (epics.get(ID) != null) {
+            historyManager.add(epics.get(ID));
+            task = epics.get(ID);
+        }
+        return task;
+    }
+
+    @Override
     public Integer addTask(String nameOfTask, String description) {
         Task task = new Task(nameOfTask, description, numberOfTasks, Status.NEW);
         tasks.put(numberOfTasks, task);
@@ -144,6 +160,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> history() {
         return historyManager.getHistory();
+    }
+
+    public String getNumbsFromHistory() {
+        return historyManager.toString();
     }
 
     // Проводится проверка на необходимость изменения статуса эпика с возможностью изменения

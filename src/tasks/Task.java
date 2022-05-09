@@ -40,11 +40,11 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "taskName='" + taskName + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", progressStatus=" + progressStatus +
-                '}';
+        return id +
+                "," + Types.TASK +
+                "," + taskName +
+                "," + progressStatus +
+                "," + description
+                ;
     }
 }

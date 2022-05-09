@@ -87,4 +87,18 @@ public class InMemoryHistoryManager implements HistoryManager {
         node.setItem(null);
         size--;
     }
+
+    @Override
+    public String toString() {
+        String numbers = "";
+        for (Integer numb: numbersOfTasks.keySet()) {
+            numbers += numb + ",";
+        }
+        if (numbers.length() >= 1) {
+            return numbers.substring(0, numbers.length() - 1);
+        } else {
+            return "";
+        }
+    }
+
 }
