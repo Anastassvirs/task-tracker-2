@@ -5,7 +5,7 @@ import tasks.Task;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         TaskManager manager = Managers.getDefault("input.csv");
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
         System.out.println("Список эпиков: " + manager.getAllEpics());
