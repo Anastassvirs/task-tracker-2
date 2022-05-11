@@ -60,6 +60,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return epic;
     }
 
+    @Override
+    public Task findEveryTaskByID(int ID) {
+        Task task = null;
+        if (tasks.get(ID) != null) {
+            task = tasks.get(ID);
+        } else if (subtasks.get(ID) != null) {
+            task = subtasks.get(ID);
+        } else if (epics.get(ID) != null) {
+            task = epics.get(ID);
+        }
+        return task;
+    }
+
     public Integer addOldTask(Task task) {
         tasks.put(task.getId(), task);
         if (task.getId() > numberOfTasks) {
@@ -141,8 +154,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    public FileBackedTasksManager loadFromFile(File file) {
+    static public FileBackedTasksManager loadFromFile(File file) {
         try {
+            FileBackedTasksManager newManager = new FileBackedTasksManager(new File("output.csv"));
             String recoveryFile = Files.readString(Path.of(file.toString()));
             String[] split = recoveryFile.split("\n");
             for (int i = 1; i < split.length - 2; i++) {
@@ -163,23 +177,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 switch (splitLine[1]) {
                     case "TASK":
                         Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), Integer.parseInt(splitLine[0]), status);
-                        addOldTask(task);
+                        newManager.addOldTask(task);
                         break;
                     case "EPIC":
                         Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), Integer.parseInt(splitLine[0]), status);
-                        addOldEpic(epic);
+                        newManager.addOldEpic(epic);
                         break;
                     default:
                         Subtask subtask = new Subtask(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), status, Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
-                        addOldSubtask(subtask);
+                        newManager.addOldSubtask(subtask);
                 }
             }
             String line = split[split.length - 1];
             List<Integer> historyList = getHistoryFromString(line);
             for (Integer item: historyList) {
-                findEveryTaskByID(item);
+                newManager.findEveryTaskByID(item);
             }
-            return this;
+            return newManager;
         } catch (IOException exp){
             throw new ManagerSaveException("wow..exeption");
         }
@@ -193,15 +207,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             newList.add(Integer.parseInt(item.replaceAll("(\\r|\\n)", "")));
         }
         return newList;
-    }
-}
-
-class ManagerSaveException extends Error{
-    public ManagerSaveException() {
-        super();
-    }
-
-    public ManagerSaveException(final String message) {
-        super(message);
     }
 }
