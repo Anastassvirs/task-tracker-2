@@ -16,7 +16,8 @@ class HistoryManagerTest {
     @BeforeEach
     public void init() {
         historyManager = new InMemoryHistoryManager();
-        task = new Task("Таск 1", "я хорош", 1, Status.DONE);
+        task = new Task("Таск 1", "я хорош", Status.DONE);
+        task.setId(1);
     }
 
     @Test
@@ -30,7 +31,10 @@ class HistoryManagerTest {
     @Test
     void addDouble() {
         historyManager.add(task);
-        historyManager.add(new Task("Таск 1", "я хорош", 1, Status.DONE));
+        Task task1 = new Task("Таск 1", "я хорош", Status.DONE);
+        task1.setId(1);
+        historyManager.add(task1);
+
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не пустая.");
         assertEquals(1, history.size(), "Добавлено две одинаковых задачи");
@@ -39,10 +43,17 @@ class HistoryManagerTest {
     @Test
     void removeFirst() {
         historyManager.add(task);
-        historyManager.add(new Task("Таск 2", "я не так хорош", 2, Status.NEW));
-        historyManager.add(new Task("Таск 3", "я не очень хорош", 3, Status.NEW));
-        historyManager.add(new Task("Таск 4", "я не хорош", 4, Status.NEW));
-        historyManager.add(new Task("Таск 5", "я плох", 5, Status.NEW));
+        Task task2 = new Task("Таск 2", "я не так хорош", Status.NEW);
+        task2.setId(2);
+        historyManager.add(task2);
+        Task task3 = new Task("Таск 3", "я не очень хорош", Status.NEW);
+        task3.setId(3);
+        historyManager.add(task3);
+        Task task4 = new Task("Таск 4", "я не хорош", Status.NEW);
+        task4.setId(4);
+        historyManager.add(task4);
+        Task task5 = new Task("Таск 5", "я плох", Status.NEW);
+        task5.setId(5);
 
         historyManager.remove(1);
 
@@ -55,33 +66,47 @@ class HistoryManagerTest {
     @Test
     void removeLast() {
         historyManager.add(task);
-        historyManager.add(new Task("Таск 2", "я не так хорош", 2, Status.NEW));
-        historyManager.add(new Task("Таск 3", "я не очень хорош", 3, Status.NEW));
-        historyManager.add(new Task("Таск 4", "я не хорош", 4, Status.NEW));
-        historyManager.add(new Task("Таск 5", "я плох", 5, Status.NEW));
+        Task task2 = new Task("Таск 2", "я не так хорош", Status.NEW);
+        task2.setId(2);
+        historyManager.add(task2);
+        Task task3 = new Task("Таск 3", "я не очень хорош", Status.NEW);
+        task3.setId(3);
+        historyManager.add(task3);
+        Task task4 = new Task("Таск 4", "я не хорош", Status.NEW);
+        task4.setId(4);
+        historyManager.add(task4);
+        Task task5 = new Task("Таск 5", "я плох", Status.NEW);
+        task5.setId(5);
 
         historyManager.remove(5);
 
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не пустая.");
         assertEquals(4, history.size(), "Задача не удалена");
-        assertEquals(false, history.contains(new Task("Таск 5", "я плох", 5, Status.NEW)), "Удалена не та задача/задача не удалена");
+        assertEquals(false, history.contains(task5), "Удалена не та задача/задача не удалена");
     }
 
     @Test
     void middleRemove() {
         historyManager.add(task);
-        historyManager.add(new Task("Таск 2", "я не так хорош", 2, Status.NEW));
-        historyManager.add(new Task("Таск 3", "я не очень хорош", 3, Status.NEW));
-        historyManager.add(new Task("Таск 4", "я не хорош", 4, Status.NEW));
-        historyManager.add(new Task("Таск 5", "я плох", 5, Status.NEW));
+        Task task2 = new Task("Таск 2", "я не так хорош", Status.NEW);
+        task2.setId(2);
+        historyManager.add(task2);
+        Task task3 = new Task("Таск 3", "я не очень хорош", Status.NEW);
+        task3.setId(3);
+        historyManager.add(task3);
+        Task task4 = new Task("Таск 4", "я не хорош", Status.NEW);
+        task4.setId(4);
+        historyManager.add(task4);
+        Task task5 = new Task("Таск 5", "я плох", Status.NEW);
+        task5.setId(5);
 
         historyManager.remove(3);
 
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не пустая.");
         assertEquals(4, history.size(), "Задача не удалена");
-        assertEquals(false, history.contains(new Task("Таск 3", "я не очень хорош", 3, Status.NEW)), "Удалена не та задача/задача не удалена");
+        assertEquals(false, history.contains(task3), "Удалена не та задача/задача не удалена");
     }
 
 }

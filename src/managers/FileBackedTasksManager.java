@@ -176,15 +176,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
                 switch (splitLine[1]) {
                     case "TASK":
-                        Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), Integer.parseInt(splitLine[0]), status);
+                        Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), status);
+                        task.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldTask(task);
                         break;
                     case "EPIC":
-                        Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), Integer.parseInt(splitLine[0]), status);
+                        Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), status);
+                        epic.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldEpic(epic);
                         break;
                     default:
-                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], Integer.parseInt(splitLine[0]), status, Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
+                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], status, Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
+                        subtask.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldSubtask(subtask);
                 }
             }

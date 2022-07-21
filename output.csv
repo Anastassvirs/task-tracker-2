@@ -1,11 +1,15 @@
 id,type,name,status,description,epic
 1,TASK,taskie daskie,NEW,funny and nice
+7,TASK,task1,NEW,strong and serious
+8,TASK,taskie daskie,NEW,funny and nice
 2,EPIC,ep2,NEW,cool epic doesn't need subtasks
 3,EPIC,ep2,NEW,cool epic
 6,EPIC,ep2,NEW,epic doesn't need subtasks
-7,EPIC,ep2,IN_PROGRESS,cool epic doesn't need subtasks
+9,EPIC,ep1,NEW,usual epic, you know
+13,EPIC,ep2,NEW,cool epic doesn't need subtasks
 7,SUBTASK,sub3,NEW,subsubsub,3
-8,SUBTASK,sub1,DONE,little subbie,7
-9,SUBTASK,sub2,NEW,subsub,7
+10,SUBTASK,sub1,NEW,little subbie,9
+11,SUBTASK,sub2,NEW,subsub,9
+12,SUBTASK,sub3,NEW,subsubsub,9
 
-7
+7,8,9,10,11,12

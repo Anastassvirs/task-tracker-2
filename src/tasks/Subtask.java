@@ -4,8 +4,8 @@ package tasks;
 public class Subtask extends Task {
     private Integer numberOfEpicTask; // Уникальный номер соответствующего подзадаче эпика
 
-    public Subtask(String taskName, String description, Integer id, Status status, Integer numberOfEpicTask) {
-        super(taskName, description, id, status);
+    public Subtask(String taskName, String description, Status status, Integer numberOfEpicTask) {
+        super(taskName, description, status);
         this.numberOfEpicTask = numberOfEpicTask;
     }
 

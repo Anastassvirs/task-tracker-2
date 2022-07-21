@@ -102,7 +102,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addTask(String nameOfTask, String description) {
-        Task task = new Task(nameOfTask, description, numberOfTasks, Status.NEW);
+        Task task = new Task(nameOfTask, description, Status.NEW);
+        task.setId(numberOfTasks);
         tasks.put(numberOfTasks, task);
         numberOfTasks++;
         return task.getId();
@@ -110,7 +111,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addSubtask(String nameOfTask, String description, Integer epicTaskNum) {
-        Subtask subtask = new Subtask(nameOfTask, description, numberOfTasks, Status.NEW, epicTaskNum);
+        Subtask subtask = new Subtask(nameOfTask, description, Status.NEW, epicTaskNum);
+        subtask.setId(numberOfTasks);
         subtasks.put(numberOfTasks, subtask);
         epics.get(epicTaskNum).addSubtask(subtask);
         numberOfTasks++;
@@ -119,10 +121,26 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addEpic(String nameOfTask, String description) {
-        Epic epic = new Epic(nameOfTask, description, numberOfTasks, Status.NEW);
+        Epic epic = new Epic(nameOfTask, description, Status.NEW);
+        epic.setId(numberOfTasks);
         epics.put(epic.getId(), epic);
         numberOfTasks++;
         return epic.getId();
+    }
+
+    @Override
+    public Integer addnewTask(Task task) {
+        return null;
+    }
+
+    @Override
+    public Integer addnewSubtask(Subtask subtask) {
+        return null;
+    }
+
+    @Override
+    public Integer addnewEpic(Epic epic) {
+        return null;
     }
 
     @Override
@@ -175,7 +193,8 @@ public class InMemoryTaskManager implements TaskManager {
         } else if (epic.getsubtasks().isEmpty() || epic.isAllSubtasksNew()) {
             return;
         }
-        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getId(), status);
+        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), status);
+        newEpic.setId(epic.getId());
         for (Subtask subtask: epic.getsubtasks().values()) {
             newEpic.addSubtask(subtask);
         }

@@ -7,10 +7,9 @@ public class Task {
     protected Integer id; // Уникальный номер задачи
     protected Status progressStatus; // Статус задачи (Новая / В процессе / Выполнена)
 
-    public Task(String taskName, String description, Integer id, Status status) {
+    public Task(String taskName, String description, Status status) {
         this.taskName = taskName;
         this.description = description;
-        this.id = id;
         this.progressStatus = status;
     }
 
@@ -36,6 +35,14 @@ public class Task {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setProgressStatus(Status progressStatus) {
+        this.progressStatus = progressStatus;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

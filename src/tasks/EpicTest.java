@@ -41,7 +41,8 @@ class EpicTest {
     @Test
     void doneEpicWithTwoDoneSubtasks() {
         for (Subtask sub: newsubs.values()) {
-            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), sub.getId(), Status.DONE, epicTaskNum);
+            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), Status.DONE, epicTaskNum);
+            nsub.setId(sub.getId());
             manager.updateSubtask(nsub);
         }
         assertNotNull(manager.getAllEpics());
@@ -52,7 +53,8 @@ class EpicTest {
     @Test
     void inProgressEpicWithDoneAndNewSubtasks() {
         for (Subtask sub: newsubs.values()) {
-            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), sub.getId(), Status.DONE, epicTaskNum);
+            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), Status.DONE, epicTaskNum);
+            nsub.setId(sub.getId());
             manager.updateSubtask(nsub);
             break;
         }
@@ -64,7 +66,8 @@ class EpicTest {
     @Test
     void inProgressEpicWithTwoInProgressSubtasks() {
         for (Subtask sub: newsubs.values()) {
-            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), sub.getId(), Status.IN_PROGRESS, epicTaskNum);
+            Subtask nsub = new Subtask(sub.getTaskName(), sub.getDescription(), Status.IN_PROGRESS, epicTaskNum);
+            nsub.setId(sub.getId());
             manager.updateSubtask(nsub);
         }
         assertNotNull(manager.getAllEpics());
