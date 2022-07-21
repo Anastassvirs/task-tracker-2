@@ -142,6 +142,10 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(numberOfTasks, subtask);
         epics.get(subtask.getNumberOfEpicTask()).addSubtask(subtask);
         numberOfTasks++;
+
+        // При необходимсоти изменяем статус самого эпика
+        updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
+
         return subtask.getId();
     }
 
@@ -201,7 +205,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic.isAllSubtasksDone()) {
             status = Status.DONE;
         } else if (epic.getsubtasks().isEmpty() || epic.isAllSubtasksNew()) {
-            return;
+            status = Status.NEW;
         }
         Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), status);
         newEpic.setId(epic.getId());
