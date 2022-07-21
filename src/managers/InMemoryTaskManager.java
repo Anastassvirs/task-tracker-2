@@ -130,17 +130,27 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addnewTask(Task task) {
-        return null;
+        task.setId(numberOfTasks);
+        tasks.put(numberOfTasks, task);
+        numberOfTasks++;
+        return task.getId();
     }
 
     @Override
     public Integer addnewSubtask(Subtask subtask) {
-        return null;
+        subtask.setId(numberOfTasks);
+        subtasks.put(numberOfTasks, subtask);
+        epics.get(subtask.getNumberOfEpicTask()).addSubtask(subtask);
+        numberOfTasks++;
+        return subtask.getId();
     }
 
     @Override
     public Integer addnewEpic(Epic epic) {
-        return null;
+        epic.setId(numberOfTasks);
+        epics.put(epic.getId(), epic);
+        numberOfTasks++;
+        return epic.getId();
     }
 
     @Override
