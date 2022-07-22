@@ -34,17 +34,11 @@ public interface TaskManager {
 
      Integer addEpic(String nameOfTask, String description);
 
-     Integer addnewTask(Task task);
+     Integer addNewTask(Task task);
 
-     Integer addnewSubtask(Subtask subtask);
+     Integer addNewSubtask(Subtask subtask);
 
-     Integer addnewEpic(Epic epic);
-
-     void updateEpic(Epic epic);
-
-     void updateTask(Task task);
-
-     void updateSubtask(Subtask subtask);
+     Integer addNewEpic(Epic epic);
 
      void deleteTaskByNum(Integer ID);
 

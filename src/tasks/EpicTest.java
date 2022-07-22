@@ -17,7 +17,7 @@ class EpicTest {
      void createSubtasks() {
         manager = Managers.getDefault("input.csv");
         epic = new Epic("ep2", "cool epic doesn't need subtasks", Status.NEW);
-        epicTaskNum = manager.addnewEpic(epic);
+        epicTaskNum = manager.addNewEpic(epic);
     }
 
     @Test
@@ -29,9 +29,9 @@ class EpicTest {
     @Test
     void newEpicWithTwoNewSubtasks() {
         Subtask subtaskSub = new Subtask("sub1", "little subbie", Status.NEW, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         subtaskSub = new Subtask("sub2", "subsub", Status.NEW, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
         assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.NEW, "Статус эпика не NEW," +
                 " хотя все подзадачи имеют статус NEW");
@@ -40,9 +40,9 @@ class EpicTest {
     @Test
     void doneEpicWithTwoDoneSubtasks() {
         Subtask subtaskSub = new Subtask("sub1", "little subbie", Status.DONE, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         subtaskSub = new Subtask("sub2", "subsub", Status.DONE, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
         assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.DONE, "Статус эпика не DONE," +
                 " хотя все подзадачи имеют статус DONE");
@@ -51,9 +51,9 @@ class EpicTest {
     @Test
     void inProgressEpicWithDoneAndNewSubtasks() {
         Subtask subtaskSub = new Subtask("sub1", "little subbie", Status.DONE, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         subtaskSub = new Subtask("sub2", "subsub", Status.NEW, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
         assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.IN_PROGRESS, "Статус эпика не IN_PROGRESS," +
                 " хотя подзадачи имеют статусы DONE и NEW");
@@ -62,9 +62,9 @@ class EpicTest {
     @Test
     void inProgressEpicWithTwoInProgressSubtasks() {
         Subtask subtaskSub = new Subtask("sub1", "little subbie", Status.IN_PROGRESS, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         subtaskSub = new Subtask("sub2", "subsub", Status.IN_PROGRESS, epicTaskNum);
-        subtask = manager.addnewSubtask(subtaskSub);
+        subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
         assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.IN_PROGRESS, "Статус эпика не IN_PROGRESS," +
                 " хотя все подзадачи имеют статус IN_PROGRESS");
