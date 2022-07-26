@@ -3,18 +3,20 @@ package managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
-import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest {
 
-    TaskManager taskManager;
+    FileBackedTasksManager taskManager;
 
     @BeforeEach
     void makeManager() {
@@ -72,6 +74,16 @@ class FileBackedTasksManagerTest {
 
         assertNotNull(epics, "Задачи на возвращаются.");
         assertEquals(1, epics.size(), "Неверное количество задач.");
+    }
+
+    @Test
+    void save() throws IOException {
+        taskManager.deleteAllEpics();
+        String recoveryFile = Files.readString(Path.of(new File("output.csv").toString()));
+        assertEquals(recoveryFile, "id,type,name,status,description,epic\n" +
+                "1,TASK,task for tests,NEW,description\n" +
+                "\n" +
+                "1,3", "Задачи сохраняются неправильно");
     }
 
 }
