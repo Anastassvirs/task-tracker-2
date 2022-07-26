@@ -1,9 +1,6 @@
 id,type,name,status,description,epic
-1,TASK,taskie daskie,NEW,funny and nice
-7,TASK,Test,NEW,Test description
-2,EPIC,ep2,NEW,cool epic doesn't need subtasks
-3,EPIC,ep2,NEW,cool epic
-6,EPIC,ep2,NEW,epic doesn't need subtasks
-7,SUBTASK,sub3,NEW,subsubsub,3
+1,TASK,task for tests,NEW,description
+2,EPIC,epic for tests,NEW,epic description for test
+3,SUBTASK,subtask for tests,NEW,sub disc for tests,2
 
-7
+1,2,3

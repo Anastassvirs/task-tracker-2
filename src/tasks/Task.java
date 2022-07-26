@@ -1,5 +1,7 @@
 package tasks;
 
+import java.util.Comparator;
+
 // Класс, описывающий все задачи
 public class Task {
     protected String taskName; // Имя задачи

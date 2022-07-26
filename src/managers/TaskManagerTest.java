@@ -14,13 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskManagerTest <T extends TaskManager>{
     TaskManager taskManager;
-    Task task;
 
     @BeforeEach
     void makeManager() {
-        this.taskManager = Managers.getDefault("input.csv");
-        task = new Task("Test", "Test description", Status.NEW);
-        taskManager.addNewTask(task);
+        this.taskManager = new InMemoryTaskManager();
     }
 
     @Test
@@ -211,7 +208,6 @@ class TaskManagerTest <T extends TaskManager>{
         assertNotNull(findedSubtask, "Задача не найдена.");
         assertEquals(findedSubtask, tasks.get(0), "Подзадачи не совпадают.");
     }
-
 
     @Test
     void addTask() {
@@ -423,16 +419,19 @@ class TaskManagerTest <T extends TaskManager>{
 
     @Test
     void history() {
-        taskManager.findTaskByID(task.getId());
-        List<Task> historyTasksList = taskManager.history();
-        Task[] historyTasks = new Task[] {task};
+        TaskManager taskManager1 = Managers.getDefault("input.csv");
+        Task task1 = new Task("Test history", "Test history description", Status.NEW);
+        int taskId = taskManager1.addNewTask(task1);
+        taskManager1.findTaskByID(taskId);
+        List<Task> historyTasksList = taskManager1.history();
+        Task[] historyTasks = new Task[] {task1};
         Task[] newHistoryTasks = new Task[1];
         for (int i = 0; i < historyTasksList.size(); i++) {
             newHistoryTasks[i] = historyTasksList.get(i);
         }
 
-        assertNotNull(taskManager.history(), "Задачи не возвращаются.");
-        assertEquals(1, taskManager.history().size(), "Неверное количество подзадач.");
+        assertNotNull(taskManager1.history(), "Задачи не возвращаются.");
+        assertEquals(1, taskManager1.history().size(), "Неверное количество подзадач.");
         assertArrayEquals(newHistoryTasks, historyTasks, "Задачи не совпадают");
     }
 }

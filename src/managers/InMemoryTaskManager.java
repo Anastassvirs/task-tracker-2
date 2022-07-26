@@ -69,33 +69,35 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task findTaskByID(int ID) {
         historyManager.add(tasks.get(ID));
-        return tasks.get(ID);
+        return this.tasks.get(ID);
     }
 
     @Override
     public Subtask findSubtaskByID(int ID) {
         historyManager.add(subtasks.get(ID));
-        return subtasks.get(ID);
+        return this.subtasks.get(ID);
     }
 
     @Override
     public Epic findEpicByID(int ID) {
         historyManager.add(epics.get(ID));
-        return epics.get(ID);
+        return this.epics.get(ID);
     }
 
     @Override
     public Task findEveryTaskByID(int ID) {
         Task task = null;
-        if (tasks.get(ID) != null) {
-            historyManager.add(tasks.get(ID));
-            task = tasks.get(ID);
-        } else if (subtasks.get(ID) != null) {
-            historyManager.add(subtasks.get(ID));
-            task = subtasks.get(ID);
-        } else if (epics.get(ID) != null) {
-            historyManager.add(epics.get(ID));
-            task = epics.get(ID);
+        if (this.tasks.get(ID) != null) {
+            historyManager.add(this.tasks.get(ID));
+            task = this.tasks.get(ID);
+        } else if (this.subtasks.get(ID) != null) {
+            historyManager.add(this.subtasks.get(ID));
+            task = this.subtasks.get(ID);
+        } else if (this.epics.get(ID) != null) {
+            historyManager.add(this.epics.get(ID));
+            task = this.epics.get(ID);
+        } else {
+            throw new NullPointerException();
         }
         return task;
     }

@@ -62,14 +62,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public Task findEveryTaskByID(int ID) {
-        Task task = null;
-        if (tasks.get(ID) != null) {
-            task = tasks.get(ID);
-        } else if (subtasks.get(ID) != null) {
-            task = subtasks.get(ID);
-        } else if (epics.get(ID) != null) {
-            task = epics.get(ID);
-        }
+        Task task = super.findEveryTaskByID(ID);
+        save();
         return task;
     }
 
@@ -158,17 +152,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
                 switch (splitLine[1]) {
                     case "TASK":
-                        Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), status);
+                        Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""),
+                                status);
                         task.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldTask(task);
                         break;
                     case "EPIC":
-                        Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""), status);
+                        Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""),
+                                status);
                         epic.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldEpic(epic);
                         break;
                     default:
-                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], status, Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
+                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], status,
+                                Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
                         subtask.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldSubtask(subtask);
                 }

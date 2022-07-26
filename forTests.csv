@@ -1,0 +1,6 @@
+id,type,name,status,description,epic
+1,TASK,task for tests,NEW,description
+2,EPIC,epic for tests,DONE,epic description for test
+3,SUBTASK,subtask for tests,DONE,sub disc for tests,2
+
+1,3
