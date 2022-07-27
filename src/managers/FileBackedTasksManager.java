@@ -171,9 +171,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
             }
             String line = split[split.length - 1];
-            List<Integer> historyList = getHistoryFromString(line);
-            for (Integer item: historyList) {
-                newManager.findEveryTaskByID(item);
+            if (getHistoryFromString(line) != null) {
+                List<Integer> historyList = getHistoryFromString(line);
+                for (Integer item: historyList) {
+                    newManager.findEveryTaskByID(item);
+                }
             }
             return newManager;
         } catch (IOException exp){
@@ -183,10 +185,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private static List<Integer> getHistoryFromString(String value) {
         List<Integer> newList = new ArrayList<>();
-        String[] split = value.split(",");
-
-        for (String item: split) {
-            newList.add(Integer.parseInt(item.replaceAll("(\\r|\\n)", "")));
+        if (value != "" && value != "\n" && !value.isEmpty()) {
+            String[] split = value.split(",");
+            if (split.length > 0) {
+                for (String item : split) {
+                    try {
+                        newList.add(Integer.parseInt(item.replaceAll("(\\r|\\n)", "")));
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                }
+            }
         }
         return newList;
     }

@@ -4,4 +4,3 @@ id,type,name,status,description,epic
 3,EPIC,empty epic for tests,NEW,epic descr
 4,SUBTASK,subtask for tests,DONE,sub disc for tests,2
 
-1,3

@@ -25,6 +25,62 @@ class FileBackedTasksManagerTest {
     }
 
     @Test
+    void noHistoryManager() {
+        FileBackedTasksManager taskManagerWithNoHistory = new FileBackedTasksManager(new File("output.csv"));
+        taskManagerWithNoHistory = taskManagerWithNoHistory.loadFromFile(new File("forTestsWithEmptyHistory.csv"));
+
+        final List<Task> taskss = taskManagerWithNoHistory.history();
+
+        assertNotNull(taskss, "Задачи из истории не возвращаются.");
+        assertEquals(0, taskss.size(), "Неверное количество задач в истории.");
+    }
+
+    @Test
+    void noTasksManager() {
+        FileBackedTasksManager taskManagerWithNoHistory = new FileBackedTasksManager(new File("output.csv"));
+        taskManagerWithNoHistory = taskManagerWithNoHistory.loadFromFile(new File("forTestsWithNoTasks.csv"));
+
+        final List<Task> history = taskManagerWithNoHistory.history();
+        final List<Task> taskss = taskManagerWithNoHistory.history();
+        final List<Task> subtaskss = taskManagerWithNoHistory.history();
+        final List<Task> epicss = taskManagerWithNoHistory.history();
+
+        assertNotNull(history, "Задачи из истории не возвращаются.");
+        assertEquals(0, history.size(), "Неверное количество задач в истории.");
+        assertNotNull(taskss, "Задачи не возвращаются.");
+        assertEquals(0, taskss.size(), "Неверное количество задач.");
+        assertNotNull(subtaskss, "Подзадачи не возвращаются.");
+        assertEquals(0, subtaskss.size(), "Неверное количество подзадач.");
+        assertNotNull(epicss, "Эпики не возвращаются.");
+        assertEquals(0, epicss.size(), "Неверное количество эпиков.");
+    }
+
+    @Test
+    void isEveryTasksAdded() {
+        final List<Task> tasks = taskManager.getAllTasks();
+
+        assertNotNull(tasks, "Задачи на возвращаются.");
+        assertEquals(1, tasks.size(), "Неверное количество задач.");
+
+        assertNotNull(taskManager.findEpicByID(taskManager.findSubtaskByID(4).getNumberOfEpicTask()).getsubtasks(),
+                "Подзадачи не добавляются в эпик.");
+        assertEquals(
+                taskManager.findEpicByID(taskManager.findSubtaskByID(4).getNumberOfEpicTask()).getsubtasks().get(4),
+                taskManager.findSubtaskByID(4),
+                "В соответствующий эпик добавлена не та подзадача"
+        );
+
+        final List<Subtask> subtasks = taskManager.getAllSubtasks();
+        assertNotNull(subtasks, "Подзадачи на возвращаются.");
+        assertEquals(1, subtasks.size(), "Неверное количество подзадач.");
+
+        final List<Epic> epics = taskManager.getAllEpics();
+
+        assertNotNull(epics, "Эпик не возвращается.");
+        assertEquals(2, epics.size(), "Неверное количество эпиков.");
+    }
+
+    @Test
     void addOldTask() {
         assertNotNull(taskManager.findTaskByID(1), "Задача не найдена.");
         assertEquals(
@@ -32,33 +88,16 @@ class FileBackedTasksManagerTest {
                 "task for tests",
                 "Задачи не совпадают."
         );
-
-        final List<Task> tasks = taskManager.getAllTasks();
-
-        assertNotNull(tasks, "Задачи на возвращаются.");
-        assertEquals(1, tasks.size(), "Неверное количество задач.");
     }
 
     @Test
     void addOldSubtask() {
-        assertNotNull(taskManager.findSubtaskByID(3), "Задача не найдена.");
+        assertNotNull(taskManager.findSubtaskByID(4), "Задача не найдена.");
         assertEquals(
-                taskManager.findSubtaskByID(3).getTaskName(),
+                taskManager.findSubtaskByID(4).getTaskName(),
                 "subtask for tests",
                 "Задачи не совпадают."
         );
-
-        assertNotNull(taskManager.findEpicByID(taskManager.findSubtaskByID(3).getNumberOfEpicTask()).getsubtasks(),
-                "Подзадачи не добавляются в эпик.");
-        assertEquals(
-                taskManager.findEpicByID(taskManager.findSubtaskByID(3).getNumberOfEpicTask()).getsubtasks().get(3),
-                taskManager.findSubtaskByID(3),
-                "В соответствующий эпик добавлена не та подзадача"
-        );
-
-        final List<Subtask> subtasks = taskManager.getAllSubtasks();
-        assertNotNull(subtasks, "Подзадачи на возвращаются.");
-        assertEquals(1, subtasks.size(), "Неверное количество подзадач.");
     }
 
     @Test
@@ -69,11 +108,21 @@ class FileBackedTasksManagerTest {
                 "epic for tests",
                 "Задачи не совпадают."
         );
+    }
+
+    @Test
+    void addOldEpicWithoutSubtasks() {
+        assertNotNull(taskManager.findEpicByID(3), "Задача не найдена.");
+        assertEquals(
+                taskManager.findEpicByID(3).getTaskName(),
+                "empty epic for tests",
+                "Эпик добавлен некорректно."
+        );
 
         final List<Epic> epics = taskManager.getAllEpics();
 
-        assertNotNull(epics, "Задачи на возвращаются.");
-        assertEquals(1, epics.size(), "Неверное количество задач.");
+        assertNotNull(epics, "Эпики не возвращаются.");
+        assertEquals(0, epics.get(1).getsubtasks().size(), "Неверное количество подзадач.");
     }
 
     @Test
