@@ -103,34 +103,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addTask(String nameOfTask, String description) {
-        Task task = new Task(nameOfTask, description, Status.NEW);
-        task.setId(numberOfTasks);
-        tasks.put(numberOfTasks, task);
-        numberOfTasks++;
-        return task.getId();
-    }
-
-    @Override
-    public Integer addSubtask(String nameOfTask, String description, Integer epicTaskNum) {
-        Subtask subtask = new Subtask(nameOfTask, description, Status.NEW, epicTaskNum);
-        subtask.setId(numberOfTasks);
-        subtasks.put(numberOfTasks, subtask);
-        epics.get(epicTaskNum).addSubtask(subtask);
-        numberOfTasks++;
-        return subtask.getId();
-    }
-
-    @Override
-    public Integer addEpic(String nameOfTask, String description) {
-        Epic epic = new Epic(nameOfTask, description, Status.NEW);
-        epic.setId(numberOfTasks);
-        epics.put(epic.getId(), epic);
-        numberOfTasks++;
-        return epic.getId();
-    }
-
-    @Override
     public Integer addNewTask(Task task) {
         task.setId(numberOfTasks);
         tasks.put(numberOfTasks, task);
@@ -215,11 +187,19 @@ public class InMemoryTaskManager implements TaskManager {
         } else if (epic.getsubtasks().isEmpty() || epic.isAllSubtasksNew()) {
             status = Status.NEW;
         }
-        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), status);
+        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), status, epic.getDuration(), epic.getStartTime());
         newEpic.setId(epic.getId());
         for (Subtask subtask: epic.getsubtasks().values()) {
             newEpic.addSubtask(subtask);
         }
         epics.put(epic.getId(), newEpic);
+    }
+
+    public int getNumberOfTasks() {
+        return numberOfTasks;
+    }
+
+    public void setNumberOfTasks(int numberOfTasks) {
+        this.numberOfTasks = numberOfTasks;
     }
 }

@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() {
         try (FileWriter fileWriter = new FileWriter(file.toString());) {
-            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("id,type,name,status,description,duration,startTime,epic\n");
             for (Task item: getAllTasks()) {
                 fileWriter.write(item.toString() + '\n');
             }
@@ -130,7 +131,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    static public FileBackedTasksManager loadFromFile(File file) {
+    public FileBackedTasksManager loadFromFile(File file) {
         try {
             FileBackedTasksManager newManager = new FileBackedTasksManager(new File("output.csv"));
             String recoveryFile = Files.readString(Path.of(file.toString()));
@@ -153,19 +154,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 switch (splitLine[1]) {
                     case "TASK":
                         Task task = new Task(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""),
-                                status);
+                                status, Long.parseLong(splitLine[5]), LocalDateTime.parse(splitLine[6].replaceAll("(\\r|\\n)", "")));
                         task.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldTask(task);
                         break;
                     case "EPIC":
                         Epic epic = new Epic(splitLine[2], splitLine[4].replaceAll("(\\r|\\n)", ""),
-                                status);
+                                status, Long.parseLong(splitLine[5]), LocalDateTime.parse(splitLine[6].replaceAll("(\\r|\\n)", "")));
                         epic.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldEpic(epic);
                         break;
                     default:
-                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], status,
-                                Integer.parseInt(splitLine[5].replaceAll("(\\r|\\n)", "")));
+                        Subtask subtask = new Subtask(splitLine[2], splitLine[4], status, Long.parseLong(splitLine[5]),
+                                LocalDateTime.parse(splitLine[6].replaceAll("(\\r|\\n)", "")),
+                                Integer.parseInt(splitLine[7].replaceAll("(\\r|\\n)", "")));
                         subtask.setId(Integer.parseInt(splitLine[0]));
                         newManager.addOldSubtask(subtask);
                 }

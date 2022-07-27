@@ -1,6 +1,6 @@
 package tasks;
 
-import java.util.Comparator;
+import java.time.LocalDateTime;
 
 // Класс, описывающий все задачи
 public class Task {
@@ -8,11 +8,17 @@ public class Task {
     protected String description; // Описание задачи
     protected Integer id; // Уникальный номер задачи
     protected Status progressStatus; // Статус задачи (Новая / В процессе / Выполнена)
+    protected Long duration; // Продолжительность задачи, оценка того, сколько времени она займёт в минутах
+    protected LocalDateTime startTime; // Дата, когда предполагается приступить к выполнению задачи
+    protected LocalDateTime endTime; // Время завершения задачи, которое рассчитывается исходя из startTime и duration
 
-    public Task(String taskName, String description, Status status) {
+    public Task(String taskName, String description, Status progressStatus, Long duration, LocalDateTime startTime) {
         this.taskName = taskName;
         this.description = description;
-        this.progressStatus = status;
+        this.progressStatus = progressStatus;
+        this.duration = duration;
+        this.startTime = startTime;
+        calculateEndTime();
     }
 
     public String getTaskName() {
@@ -47,13 +53,44 @@ public class Task {
         this.id = id;
     }
 
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    private void calculateEndTime() {
+        endTime = startTime.plusMinutes(duration);
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     @Override
     public String toString() {
         return id +
                 "," + Types.TASK +
                 "," + taskName +
                 "," + progressStatus +
-                "," + description
+                "," + description +
+                "," + duration +
+                "," + startTime
                 ;
     }
 }

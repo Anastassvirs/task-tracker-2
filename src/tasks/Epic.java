@@ -1,13 +1,14 @@
 package tasks;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 // Класс, описывающий эпик
 public class Epic extends Task {
     private HashMap<Integer, Subtask> subtasks; // Список принадлежащих подзадач с указанием статуса
 
-    public Epic(String taskName, String description, Status status) {
-        super(taskName, description, status);
+    public Epic(String taskName, String description, Status progressStatus, Long duration, LocalDateTime startTime) {
+        super(taskName, description, progressStatus, duration, startTime);
         this.subtasks = new HashMap<>();
     }
 
@@ -56,7 +57,9 @@ public class Epic extends Task {
                 "," + Types.EPIC +
                 "," + taskName +
                 "," + progressStatus +
-                "," + description
+                "," + description +
+                "," + duration +
+                "," + startTime
                 ;
     }
 }

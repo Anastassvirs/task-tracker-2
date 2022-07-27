@@ -1,8 +1,12 @@
 import managers.Managers;
 import managers.TaskManager;
+import tasks.Epic;
+import tasks.Status;
+import tasks.Subtask;
 import tasks.Task;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,15 +14,29 @@ public class Main {
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
         System.out.println("Список эпиков: " + manager.getAllEpics());
         System.out.println("Список подзадач: " + manager.getAllSubtasks());
-        Integer taskNum1 = manager.addTask("task1", "strong and serious");
-        Integer taskNum2 = manager.addTask("taskie daskie", "funny and nice");
+        Task newTask = new Task("task1", "strong and serious", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0));
+        Integer taskNum1 = manager.addNewTask(newTask);
+        newTask = new Task("taskie daski", "funny and nice", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0));
+        Integer taskNum2 = manager.addNewTask(newTask);
         // Три подзадачи + эпик
-        Integer epicTaskNum1 = manager.addEpic("ep1", "usual epic, you know");
-        Integer subtask1 = manager.addSubtask("sub1", "little subbie", epicTaskNum1);
-        Integer subtask2 = manager.addSubtask("sub2", "subsub", epicTaskNum1);
-        Integer subtask3 = manager.addSubtask("sub3", "subsubsub", epicTaskNum1);
+        Epic newEpic = new Epic("ep1", "usual epic you know", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0));
+        Integer epicTaskNum1 = manager.addNewEpic(newEpic);
+        Subtask newSubtask = new Subtask("sub1", "little subbie", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum1);
+        Integer subtask1 = manager.addNewSubtask(newSubtask);
+        newSubtask = new Subtask("sub2", "subsub", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum1);
+        Integer subtask2 = manager.addNewSubtask(newSubtask);
+        newSubtask = new Subtask("sub3", "subsubsub", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum1);
+        Integer subtask3 = manager.addNewSubtask(newSubtask);
         // Пустой эпик
-        Integer epicTaskNum2 = manager.addEpic("ep2", "cool epic doesn't need subtasks");
+        newEpic = new Epic("ep2", "cool epic doesn't need subtasks", Status.NEW, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0));
+        Integer epicTaskNum2 = manager.addNewEpic(newEpic);
 
         System.out.println('\n' + "Список обычных задач: " + manager.getAllTasks());
         System.out.println("Список эпиков: " + manager.getAllEpics());

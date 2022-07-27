@@ -28,12 +28,6 @@ public interface TaskManager {
 
      Task findEveryTaskByID(int ID);
 
-     Integer addTask(String nameOfTask, String description);
-
-     Integer addSubtask(String nameOfTask, String description, Integer epicTaskNum);
-
-     Integer addEpic(String nameOfTask, String description);
-
      Integer addNewTask(Task task);
 
      Integer addNewSubtask(Subtask subtask);

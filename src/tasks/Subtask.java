@@ -1,11 +1,13 @@
 package tasks;
 
+import java.time.LocalDateTime;
+
 // Класс, описывающий подзадачи
 public class Subtask extends Task {
     private Integer numberOfEpicTask; // Уникальный номер соответствующего подзадаче эпика
 
-    public Subtask(String taskName, String description, Status status, Integer numberOfEpicTask) {
-        super(taskName, description, status);
+    public Subtask(String taskName, String description, Status progressStatus, Long duration, LocalDateTime startTime, Integer numberOfEpicTask) {
+        super(taskName, description, progressStatus, duration, startTime);
         this.numberOfEpicTask = numberOfEpicTask;
     }
 
@@ -20,6 +22,8 @@ public class Subtask extends Task {
                 "," + taskName +
                 "," + progressStatus +
                 "," + description +
+                "," + duration +
+                "," + startTime +
                 "," + numberOfEpicTask
                 ;
     }

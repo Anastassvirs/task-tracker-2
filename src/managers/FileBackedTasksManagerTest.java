@@ -129,8 +129,8 @@ class FileBackedTasksManagerTest {
     void save() throws IOException {
         taskManager.deleteAllEpics();
         String recoveryFile = Files.readString(Path.of(new File("output.csv").toString()));
-        assertEquals(recoveryFile, "id,type,name,status,description,epic\n" +
-                "1,TASK,task for tests,NEW,description\n" +
+        assertEquals(recoveryFile, "id,type,name,status,description,duration,startTime,epic\n" +
+                "1,TASK,task for tests,NEW,description,20,2022-01-01T10:15:30\n" +
                 "\n" +
                 "1,3", "Задачи сохраняются неправильно");
     }
