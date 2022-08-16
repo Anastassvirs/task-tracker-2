@@ -388,4 +388,45 @@ class TaskManagerTest {
         assertEquals(1, taskManager1.history().size(), "Неверное количество подзадач.");
         assertArrayEquals(newHistoryTasks, historyTasks, "Задачи не совпадают");
     }
+
+    @Test
+    void taskDurationStartTimeAndEndTime() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW,
+                (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0));
+        final int taskId = taskManager.addNewTask(task);
+
+        final Task savedTask = taskManager.findTaskByID(taskId);
+
+        assertNotNull(savedTask, "Задача не найдена.");
+        assertEquals(task, savedTask, "Задачи не совпадают.");
+
+        final List<Task> tasks = taskManager.getAllTasks();
+
+        assertNotNull(tasks, "Задачи на возвращаются.");
+        assertEquals(20, tasks.get(taskId).getDuration(), "Время исполнения установлено неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 0, 0),
+                tasks.get(taskId).getStartTime(), "Время начала задачи установлено неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 0, 20),
+                tasks.get(taskId).getEndTime(), "Время окончания задачи расчитано неправильно");
+    }
+
+    @Test
+    void subtaskDurationStartTimeAndEndTime() {
+        Epic epic = new Epic("Test addNewSubtask", "Test addNewSubtask description for Epic",
+                Status.NEW, (long) 30, LocalDateTime.of(2022, 1, 1, 0, 0));
+        final int epicId = taskManager.addNewEpic(epic);
+        Subtask subtask = new Subtask("Test addNewSubtask", "Test addNewSubtask description",
+                Status.NEW, (long) 40, LocalDateTime.of(2022, 1, 1, 0, 0), epicId);
+        final int subtaskId = taskManager.addNewSubtask(subtask);
+
+        final List<Subtask> subtasks = taskManager.getAllSubtasks();
+
+        assertNotNull(subtasks, "Подзадачи на возвращаются.");
+        assertEquals(40, subtasks.get(0).getDuration(),
+                "Время исполнения установлено неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 0, 0),
+                taskManager.findSubtaskByID(subtaskId).getStartTime(), "Время начала задачи установлено неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 0, 40),
+                taskManager.findSubtaskByID(subtaskId).getEndTime(), "Время окончания задачи расчитано неправильно");
+    }
 }

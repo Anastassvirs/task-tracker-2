@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -135,4 +136,20 @@ class FileBackedTasksManagerTest {
                 "1,3", "Задачи сохраняются неправильно");
     }
 
+    @Test
+    void isDurationAndStartTimeAndEndTimeOK() {
+        assertNotNull(taskManager.findEpicByID(2), "Задача не найдена.");
+        assertEquals(
+                23,
+                taskManager.findEpicByID(2).getDuration(),
+                "Длительность восстановлена из памяти неверно"
+        );
+        assertEquals(LocalDateTime.of(
+                2022, 1, 1, 10, 15, 30),
+                taskManager.findEpicByID(2).getStartTime(),
+                "Время начала эпика записано неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 10, 38,30),
+                taskManager.findEpicByID(2).getEndTime(),
+                "Время окончания эпика расчитано неправильно");
+    }
 }
