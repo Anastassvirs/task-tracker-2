@@ -5,7 +5,10 @@ import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static java.time.Month.FEBRUARY;
 
 public class InMemoryTaskManager implements TaskManager {
     protected int numberOfTasks;
@@ -117,8 +120,9 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(subtask.getNumberOfEpicTask()).addSubtask(subtask);
         numberOfTasks++;
 
-        // При необходимсоти изменяем статус самого эпика
+        // При необходимсоти изменяем статус самого эпика и длительность со временем окончания и начала
         updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
+        updateEpicDurationAndEndTime(epics.get(subtask.getNumberOfEpicTask()));
 
         return subtask.getId();
     }
@@ -192,6 +196,29 @@ public class InMemoryTaskManager implements TaskManager {
         for (Subtask subtask: epic.getsubtasks().values()) {
             newEpic.addSubtask(subtask);
         }
+        epics.put(epic.getId(), newEpic);
+    }
+
+    public void updateEpicDurationAndEndTime(Epic epic) {
+        LocalDateTime mostEarlyTaskStart = LocalDateTime.of(3000, FEBRUARY, 2, 22, 22);
+        LocalDateTime mostLateTaskEnd = LocalDateTime.of(1500, FEBRUARY, 2, 22, 22);;
+        Long newDuration = (long) 0;
+        Epic newEpic = new Epic(epic.getTaskName(), epic.getDescription(), epic.getProgressStatus(), epic.getDuration(),
+                epic.getStartTime());
+        newEpic.setId(epic.getId());
+        for (Subtask subtask: epic.getsubtasks().values()) {
+            if (subtask.getStartTime().isBefore(mostEarlyTaskStart)) {
+                mostEarlyTaskStart = subtask.getStartTime();
+            }
+            if (subtask.getEndTime().isAfter(mostLateTaskEnd)) {
+                mostLateTaskEnd = subtask.getEndTime();
+            }
+            newEpic.addSubtask(subtask);
+            newDuration += subtask.getDuration();
+        }
+        newEpic.setDuration(newDuration);
+        newEpic.setStartTime(mostEarlyTaskStart);
+        newEpic.setEndTime(mostLateTaskEnd);
         epics.put(epic.getId(), newEpic);
     }
 

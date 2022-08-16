@@ -77,6 +77,10 @@ public class Task {
         return endTime;
     }
 
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);

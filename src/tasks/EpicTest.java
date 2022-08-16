@@ -18,7 +18,7 @@ class EpicTest {
     @BeforeEach
      void createSubtasks() {
         manager = Managers.getDefault("input.csv");
-        epic = new Epic("ep2", "cool epic doesn't need subtasks", Status.NEW, (long) 20,
+        epic = new Epic("ep2", "cool epic doesn't need subtasks", Status.NEW, (long) 0,
                 LocalDateTime.of(2022, 1, 1, 0, 0));
         epicTaskNum = manager.addNewEpic(epic);
     }
@@ -51,7 +51,7 @@ class EpicTest {
                 LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum);
         subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
-        assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.DONE, "Статус эпика не DONE," +
+        assertEquals(Status.DONE, manager.findEpicByID(epicTaskNum).progressStatus, "Статус эпика не DONE," +
                 " хотя все подзадачи имеют статус DONE");
     }
 
@@ -64,7 +64,7 @@ class EpicTest {
                 LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum);
         subtask = manager.addNewSubtask(subtaskSub);
         assertNotNull(manager.getAllEpics());
-        assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.IN_PROGRESS, "Статус эпика не IN_PROGRESS," +
+        assertEquals(Status.IN_PROGRESS, manager.findEpicByID(epicTaskNum).progressStatus, "Статус эпика не IN_PROGRESS," +
                 " хотя подзадачи имеют статусы DONE и NEW");
     }
 
@@ -79,5 +79,24 @@ class EpicTest {
         assertNotNull(manager.getAllEpics());
         assertEquals(manager.findEpicByID(epicTaskNum).progressStatus, Status.IN_PROGRESS, "Статус эпика не IN_PROGRESS," +
                 " хотя все подзадачи имеют статус IN_PROGRESS");
+    }
+
+    @Test
+    void epicWithSubtasksDurationAndStartEndTimeTest() {
+        Subtask subtaskSub = new Subtask("sub1", "little subbie", Status.DONE, (long) 20,
+                LocalDateTime.of(2022, 1, 1, 0, 0), epicTaskNum);
+        subtask = manager.addNewSubtask(subtaskSub);
+        subtaskSub = new Subtask("sub2", "subsub", Status.NEW, (long) 30,
+                LocalDateTime.of(2022, 6, 1, 18, 36), epicTaskNum);
+        subtask = manager.addNewSubtask(subtaskSub);
+        assertNotNull(manager.getAllEpics());
+        assertEquals(50, manager.findEpicByID(epicTaskNum).getDuration(),
+                "Продолжительность эпика расчитана неправильно");
+        assertEquals(LocalDateTime.of(2022, 1, 1, 0, 0)
+                , manager.findEpicByID(epicTaskNum).getStartTime(),
+                "Время начала эпика записано неправильно");
+        assertEquals(LocalDateTime.of(2022, 6, 1, 19, 06)
+                , manager.findEpicByID(epicTaskNum).getEndTime(),
+                "Время окончания эпика расчитано неправильно");
     }
 }
