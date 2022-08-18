@@ -3,7 +3,7 @@ package tasks;
 import java.time.LocalDateTime;
 
 // Класс, описывающий все задачи
-public class Task {
+public class Task implements Comparable<Task>{
     protected String taskName; // Имя задачи
     protected String description; // Описание задачи
     protected Integer id; // Уникальный номер задачи
@@ -96,5 +96,14 @@ public class Task {
                 "," + duration +
                 "," + startTime
                 ;
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        if (startTime.isAfter(o.startTime)) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }

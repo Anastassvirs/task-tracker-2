@@ -202,7 +202,7 @@ class TaskManagerTest {
         taskManager.addNewEpic(epic2);
         Subtask subtask = new Subtask("Test findEveryTaskByID", "Test findEveryTaskByID description",
                 Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0), epicId);
-        final int subtaskId = taskManager.addNewSubtask(subtask);
+        taskManager.addNewSubtask(subtask);
         Subtask subtask2 = new Subtask("Test findEveryTaskByID2", "Test findEveryTaskByID description2",
                 Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0), epic.getId());
         taskManager.addNewSubtask(subtask2);
@@ -428,5 +428,31 @@ class TaskManagerTest {
                 taskManager.findSubtaskByID(subtaskId).getStartTime(), "Время начала задачи установлено неправильно");
         assertEquals(LocalDateTime.of(2022, 1, 1, 0, 40),
                 taskManager.findSubtaskByID(subtaskId).getEndTime(), "Время окончания задачи расчитано неправильно");
+    }
+
+    @Test
+    void getPrioritizedTasksTest() {
+        Task task1 = new Task("Test getPrioritizedTasksTest",
+                "Test getPrioritizedTasksTest description", Status.NEW,
+                (long) 20, LocalDateTime.of(2020, 6, 1, 0, 0));
+        taskManager.addNewTask(task1);
+        Task task2 = new Task("Test getPrioritizedTasksTest",
+                "Test getPrioritizedTasksTest description2",
+                Status.NEW, (long) 20, LocalDateTime.of(2023, 1, 1, 0, 0));
+        taskManager.addNewTask(task2);
+        Task task3 = new Task("Test getPrioritizedTasksTest",
+                "Test getPrioritizedTasksTest description", Status.NEW,
+                (long) 20, LocalDateTime.of(2020, 5, 13, 0, 0));
+        taskManager.addNewTask(task3);
+        Task task4 = new Task("Test getPrioritizedTasksTest",
+                "Test getPrioritizedTasksTest description2",
+                Status.NEW, (long) 20, LocalDateTime.of(2020, 5, 11, 6, 3));
+        taskManager.addNewTask(task4);
+        Task task5 = new Task("Test getPrioritizedTasksTest",
+                "Test getPrioritizedTasksTest description2",
+                Status.NEW, (long) 20, LocalDateTime.of(2020, 5, 11, 0, 0));
+        taskManager.addNewTask(task5);
+        System.out.println(taskManager.getPrioritizedTasks());
+        assertNotNull(taskManager.getPrioritizedTasks(), "Подзадачи на возвращаются.");
     }
 }

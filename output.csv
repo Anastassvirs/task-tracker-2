@@ -5,4 +5,4 @@ id,type,name,status,description,duration,startTime,epic
 3,EPIC,ep2,NEW,cool epic,20,2022-01-01T10:15:30
 7,SUBTASK,sub3,NEW,subsubsub,20,2022-01-01T10:15:30,3
 
-7
+1,7
