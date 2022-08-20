@@ -455,4 +455,50 @@ class TaskManagerTest {
         System.out.println(taskManager.getPrioritizedTasks());
         assertNotNull(taskManager.getPrioritizedTasks(), "Подзадачи на возвращаются.");
     }
+
+    @Test
+    void validate() {
+        Task task1 = new Task("Test validate",
+                "Test validate description", Status.NEW,
+                (long) 20, LocalDateTime.of(2020, 1, 1, 0, 0));
+        taskManager.addNewTask(task1);
+        Task task2 = new Task("Test validate",
+                "Test validate description 2",
+                Status.NEW, (long) 20, LocalDateTime.of(2020, 1, 1, 0, 0));
+        taskManager.addNewTask(task2);
+        Task task3 = new Task("Test validate",
+                "Test validate description 3", Status.NEW,
+                (long) 20, LocalDateTime.of(2020, 1, 1, 0, 19));
+        taskManager.addNewTask(task3);
+
+        Epic epic1 = new Epic("Test validate", "Test validate description 4",
+                Status.NEW, (long) 20, LocalDateTime.of(2021, 1, 1, 0, 0));
+        taskManager.addNewEpic(epic1);
+        Subtask subtask1 = new Subtask("Test validate", "Test validate description 5",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 2, 0, 0),
+                epic1.getId());
+        taskManager.addNewSubtask(subtask1);
+        Subtask subtask2 = new Subtask("Test validate", "Test validate description 6",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 2, 0, 20),
+                epic1.getId());
+        taskManager.addNewSubtask(subtask2);
+        Subtask subtask3 = new Subtask("Test validate", "Test validate description 7",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 2, 0, 15),
+                epic1.getId());
+        taskManager.addNewSubtask(subtask3);
+
+        Task task4 = new Task("Test validate",
+                "Test validate description 8", Status.NEW,
+                (long) 20, LocalDateTime.of(2021, 1, 1, 0, 1));
+        taskManager.addNewTask(task4);
+
+        List<Task> tasks = taskManager.getAllTasks();
+        List<Subtask> subtasks = taskManager.getAllSubtasks();
+
+        assertNotNull(tasks, "Задачи на возвращаются.");
+        assertEquals(1, tasks.size(),
+                "Задачи сохраняются, хотя накладываются по времени друг на друга");
+        assertEquals(2, subtasks.size(),
+                "Ошибка валидации");
+    }
 }
