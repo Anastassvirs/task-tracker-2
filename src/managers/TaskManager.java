@@ -37,6 +37,12 @@ public interface TaskManager {
 
      Integer addNewEpic(Epic epic);
 
+     Integer updateTask(Task task, Integer ID);
+
+     Integer updateSubtask(Subtask subtask, Integer ID);
+
+     Integer updateEpic(Epic epic, Integer ID);
+
      void deleteTaskByNum(Integer ID);
 
      void deleteSubtaskByNum(Integer ID);

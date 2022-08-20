@@ -173,6 +173,28 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public Integer updateTask(Task task, Integer ID) {
+        task.setId(ID);
+        tasks.put(ID, task);
+        return task.getId();
+    }
+
+    @Override
+    public Integer updateSubtask(Subtask subtask, Integer ID) {
+        subtask.setId(ID);
+        subtasks.put(ID, subtask);
+        return subtask.getId();
+    }
+
+    @Override
+    public Integer updateEpic(Epic epic, Integer ID) {
+        epic.setId(ID);
+        epics.put(ID, epic);
+        return epic.getId();
+    }
+
+
+    @Override
     public void deleteTaskByNum(Integer ID) {
         try {
             historyManager.remove(ID);

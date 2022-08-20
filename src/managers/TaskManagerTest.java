@@ -278,6 +278,66 @@ class TaskManagerTest {
     }
 
     @Test
+    void updateTask() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW,
+                (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0));
+        final int taskId = taskManager.addNewTask(task);
+
+        LocalDateTime newTime = LocalDateTime.of(2022, 3, 1, 0, 0);
+        Task newTask = new Task("Test addNewTask", "Test addNewTask description", Status.NEW,
+                (long) 20, newTime);
+
+        taskManager.updateTask(newTask, taskId);
+
+        final List<Task> tasks = taskManager.getAllTasks();
+
+        assertNotNull(tasks, "Задачи на возвращаются.");
+        assertEquals(1, tasks.size(), "Неверное количество задач.");
+        assertEquals(newTask, tasks.get(0), "Задачи не обновляются.");
+    }
+
+    @Test
+    void updateSubtask() {
+        Epic epic = new Epic("Test addNewSubtask", "Test addNewSubtask description for Epic",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0));
+        final int epicId = taskManager.addNewEpic(epic);
+        Subtask subtask = new Subtask("Test addNewSubtask", "Test addNewSubtask description",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 2, 1, 0, 0), epicId);
+        final int subtaskId = taskManager.addNewSubtask(subtask);
+
+        LocalDateTime newTime = LocalDateTime.of(2022, 3, 1, 0, 0);
+        Subtask newSubtask = new Subtask("Test addNewSubtask", "Test addNewSubtask description",
+                Status.NEW, (long) 20, newTime, epicId);
+
+        taskManager.updateSubtask(newSubtask, subtaskId);
+
+        final List<Subtask> subtasks = taskManager.getAllSubtasks();
+
+        assertNotNull(subtasks, "Подзадачи на возвращаются.");
+        assertEquals(1, subtasks.size(), "Неверное количество подзадач.");
+        assertEquals(newSubtask, subtasks.get(0), "Подзадачи не обновляются.");
+    }
+
+    @Test
+    void updateEpic() {
+        Epic epic = new Epic("Test addNewSubtask", "Test addNewSubtask description for Epic",
+                Status.NEW, (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0));
+        final int epicId = taskManager.addNewEpic(epic);
+
+        LocalDateTime newTime = LocalDateTime.of(2022, 3, 1, 0, 0);
+        Epic newEpic = new Epic("Test addNewSubtask", "Test addNewSubtask description for Epic",
+                Status.NEW, (long) 20, newTime);
+
+        taskManager.updateEpic(newEpic, epicId);
+
+        final List<Epic> epics = taskManager.getAllEpics();
+
+        assertNotNull(epics, "Эпики на возвращаются.");
+        assertEquals(1, epics.size(), "Неверное количество эпиков.");
+        assertEquals(newEpic, epics.get(0), "Эпики не обновляются.");
+    }
+
+    @Test
     void deleteTaskByNum() {
         Task task1 = new Task("Test deleteTaskByNum", "Test deleteTaskByNum description", Status.NEW,
                  (long) 20, LocalDateTime.of(2022, 1, 1, 0, 0));
