@@ -1,8 +1,7 @@
 id,type,name,status,description,duration,startTime,epic
-1,TASK,taskie daskie,NEW,funny and nice,20,2022-01-01T10:15:30
-7,TASK,Test history,NEW,Test history description,20,2022-01-01T00:00
-2,EPIC,ep2,NEW,cool epic doesn't need subtasks,20,2022-01-01T10:15:30
-3,EPIC,ep2,NEW,cool epic,20,2022-01-01T10:15:30
-7,SUBTASK,sub3,NEW,subsubsub,20,2022-01-01T10:15:30,3
+7,TASK,Test history,NEW,Test history description,20,2022-02-01T04:50
+2,EPIC,ep2,NEW,cool epic doesn't need subtasks,20,2022-01-02T10:15:30
+3,EPIC,ep2,NEW,cool epic,20,2022-01-05T10:15:30
+7,SUBTASK,sub3,NEW,subsubsub,20,2022-01-05T10:15:30,3
 
-1,7
+7

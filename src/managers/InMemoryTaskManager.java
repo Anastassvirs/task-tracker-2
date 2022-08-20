@@ -122,39 +122,54 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addNewTask(Task task) {
-        task.setId(numberOfTasks);
-        tasks.put(numberOfTasks, task);
-        numberOfTasks++;
-        prioritizedTasks.add(task);
-        return task.getId();
+    public Integer addNewTask(Task task){
+        if (doesTaskOverlap(task)) {
+            System.out.println("Невозможно добавить задачу, так как выбранный диапазон уже занят");
+            return 0;
+        } else {
+            task.setId(numberOfTasks);
+            tasks.put(numberOfTasks, task);
+            numberOfTasks++;
+            prioritizedTasks.add(task);
+            return task.getId();
+        }
     }
 
     @Override
     public Integer addNewSubtask(Subtask subtask) {
-        subtask.setId(numberOfTasks);
-        subtasks.put(numberOfTasks, subtask);
-        epics.get(subtask.getNumberOfEpicTask()).addSubtask(subtask);
-        numberOfTasks++;
+        if (doesTaskOverlap(subtask)) {
+            System.out.println("Невозможно добавить задачу, так как выбранный диапазон уже занят");
+            return 0;
+        } else {
+            subtask.setId(numberOfTasks);
+            subtasks.put(numberOfTasks, subtask);
+            epics.get(subtask.getNumberOfEpicTask()).addSubtask(subtask);
+            numberOfTasks++;
 
-        // При необходимсоти изменяем статус самого эпика и длительность со временем окончания и начала
-        updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
-        updateEpicDurationAndEndTime(epics.get(subtask.getNumberOfEpicTask()));
+            // При необходимсоти изменяем статус самого эпика и длительность со временем окончания и начала
+            updateEpicStatus(epics.get(subtask.getNumberOfEpicTask()));
+            updateEpicDurationAndEndTime(epics.get(subtask.getNumberOfEpicTask()));
 
-        prioritizedTasks.add(subtask);
+            prioritizedTasks.add(subtask);
 
-        return subtask.getId();
+            return subtask.getId();
+        }
     }
 
     @Override
     public Integer addNewEpic(Epic epic) {
-        epic.setId(numberOfTasks);
-        epics.put(epic.getId(), epic);
-        numberOfTasks++;
+        if (doesTaskOverlap(epic)) {
+            System.out.println("Невозможно добавить задачу, так как выбранный диапазон уже занят");
+            return 0;
+        } else {
+            epic.setId(numberOfTasks);
+            epics.put(epic.getId(), epic);
+            numberOfTasks++;
 
-        prioritizedTasks.add(epic);
+            prioritizedTasks.add(epic);
 
-        return epic.getId();
+            return epic.getId();
+        }
     }
 
     @Override
@@ -246,5 +261,20 @@ public class InMemoryTaskManager implements TaskManager {
         prioritizedTasks.remove(epic);
         prioritizedTasks.add(newEpic);
         epics.put(epic.getId(), newEpic);
+    }
+
+    private boolean doesTaskOverlap(Task task) {
+        boolean doesOverlap = false;
+        for (Task existedTask: prioritizedTasks) {
+            if (existedTask.getStartTime().isBefore(task.getStartTime())
+                    && existedTask.getEndTime().isAfter(task.getStartTime())
+                    || existedTask.getStartTime().isBefore(task.getEndTime())
+                    && existedTask.getEndTime().isAfter(task.getEndTime())
+                    || existedTask.getStartTime().equals(task.getStartTime())) {
+                doesOverlap = true;
+                return doesOverlap;
+            }
+        }
+        return doesOverlap;
     }
 }

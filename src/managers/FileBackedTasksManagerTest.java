@@ -145,10 +145,10 @@ class FileBackedTasksManagerTest {
                 "Длительность восстановлена из памяти неверно"
         );
         assertEquals(LocalDateTime.of(
-                2022, 1, 1, 10, 15, 30),
+                2022, 1, 2, 11, 15, 30),
                 taskManager.findEpicByID(2).getStartTime(),
                 "Время начала эпика записано неправильно");
-        assertEquals(LocalDateTime.of(2022, 1, 1, 10, 38,30),
+        assertEquals(LocalDateTime.of(2022, 1, 2, 11, 38,30),
                 taskManager.findEpicByID(2).getEndTime(),
                 "Время окончания эпика расчитано неправильно");
     }
